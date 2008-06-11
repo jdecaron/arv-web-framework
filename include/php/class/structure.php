@@ -1,23 +1,24 @@
 <?
 
 class buildStructure{
-    var $temporaryFolder = '/var/www/find-spots.com/tmp/template/';
-    var $renderFilePrefix = null;
+    private static $temporaryFolder = '/var/www/find-spots.com/tmp/template/';
+    private static $renderFilePrefix = null;
 
     function getBlocksToLoad($arguments_array){
 
-   var_dump($arguments_array);
-        foreach($arguments_array['structure'] as $index => $row){
-            if(is_array($row['childs'])){
-                $this->getBlocksToLoad(array('structure' => $row['childs'], 'blocksToLoad' => $arguments_array['blocksToLoad']));
+        foreach($arguments_array['structure'] as $index => $cell){
+
+            // Recursively process all the childs from that
+            // array.
+            if(is_array($cell['childs'])){
+                $blockToLoad_array = buildStructure::getBlocksToLoad(array('structure' => $cell['childs'], 'blocksToLoad' => $arguments_array['blocksToLoad']));
+                $arguments_array['blocksToLoad'] = $blockToLoad_array['blocksToLoad'];
             }
 
-            if(array_key_exists('load', $row)){
-                $arguments_array['blocksToLoad'] = array_merge($arguments_array['blocksToLoad'], array($index => $row['load']));
-            }
-
-            if(array_key_exists('content', $row)){
-                $arguments_array['blocksToLoad'] = array_merge($arguments_array['blocksToLoad'], array($index => $row['content']));
+            // Append the new block to the other
+            // already retrieved blocks.
+            if(array_key_exists('load', $cell)){
+                $arguments_array['blocksToLoad'] = array_merge($arguments_array['blocksToLoad'], array($index => $cell['load']));
             }
         }
 
@@ -33,28 +34,38 @@ class buildStructure{
         // Get the content to load and on which
         // template it has to be done.
         $page_array = page::$arguments_array['page']();
-        $blocksToLoad = $this->getBlocksToLoad(array('structure' => templateStructure::$page_array['template'](), 'blocksToLoad' => array()));
-        //var_dump($blocksToLoad);
-        // replace
+        $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => templateStructure::$page_array['template'](), 'blocksToLoad' => array()));
+
+        // Replace the empty dynamic
+        // blocks by their content URL
+        // to be loaded.
+        foreach($blocksToLoad_array['blocksToLoad'] as $index => $cell){
+            if(is_numeric($cell)){
+                $blocksToLoad_array['blocksToLoad'][$index] = $page_array['content'][$cell];
+            }
+        }
+
+        buildStructure::renderPage(array('blocksToLoad' => $blocksToLoad_array['blocksToLoad']));
+
     }
 
     function renderPage($arguments_array){
-        // Clean the array from any potential shell attack.
-        $arguments_array = array_map('escapeshellcmd', $arguments_array);
-
+var_dump($arguments_array);
         // Create a unique file name to work with during
         // the render process.
-        if($this->renderFilePrefix == null){
+        if(self::$renderFilePrefix == null){
             do{
                 //
-            }while(file_exists($this->temporaryFolder . $this->renderFilePrefix = md5(microtime())));
-            touch($this->temporaryFolder . $this->renderFilePrefix);
+            }while(file_exists(self::$temporaryFolder . self::$renderFilePrefix = md5(microtime())));
+            touch(self::$temporaryFolder . self::$renderFilePrefix);
         }
 
-        foreach($arguments_array as $argument){
-            shell_exec('sleep 20 >/dev/null 2>&1 &');
+        foreach($arguments_array['blocksToLoad'] as $fileSuffix =>$blockToRender){
+            $blockToRender = escapeshellcmd($blockToRender);
+
+            shell_exec('wget ' . $blockToRender . ' -O ' . self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix . '>/dev/null 2>&1 &');
         }
-        echo 'render1';
+
     }
 }
 
@@ -81,7 +92,7 @@ class page{
         return array(
             'template' => 'template0',
             'content' => array(
-                            'load' => '/test/test1.php'
+                            'http://192.168.1.102/find-spots.com/include/tpl/test/page3.php'
                         )
         );
     }
@@ -107,7 +118,7 @@ class templateStructure{
         'a1' => array(
                 'childs' => array(
                                 'a1_b0' => array(
-                                    'content' => 0,
+                                    'load' => 0,
                                 )
                             ),
                 'style' => 'clear:both',
