@@ -1,8 +1,6 @@
 <?
 
 class buildStructure{
-    private static $temporaryFolder = '/var/www/find-spots.com/tmp/template/';
-    private static $renderFilePrefix = null;
 
     function getBlocksToLoad($arguments_array){
 
@@ -37,7 +35,7 @@ class buildStructure{
         $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => templateStructure::$page_array['template'](), 'blocksToLoad' => array()));
 
         // Replace the empty dynamic
-        // blocks by their content URL
+        // blocks by the URL's of the pages
         // to be loaded.
         foreach($blocksToLoad_array['blocksToLoad'] as $index => $cell){
             if(is_numeric($cell)){
@@ -45,12 +43,43 @@ class buildStructure{
             }
         }
 
-        buildStructure::renderPage(array('blocksToLoad' => $blocksToLoad_array['blocksToLoad']));
+        $loadedBlocks_array = buildStructure::renderBlocks(array('blocksToLoad' => $blocksToLoad_array['blocksToLoad']));
 
+        return buildStructure::renderHtmlStructure(array('loadedBlocks' => $loadedBlocks_array['loadedBlocks'], 'structure' => $blocksToLoad_array['structure']));
     }
 
-    function renderPage($arguments_array){
-var_dump($arguments_array);
+    function renderHtmlStructure($arguments_array){
+        $content = null;
+        $style = null;
+        $htmlRendered = '';
+
+        foreach($arguments_array['structure'] as $index => $cell){
+            if(is_array($cell)){
+                $htmlRendered .= buildStructure::renderHtmlStructure(array('loadedBlocks' => $arguments_array['loadedBlocks'], 'structure' => $cell));
+            }
+
+            if($index == 'style'){
+                $style = 'style="' . $cell . '"';
+            }
+
+            if(array_key_exists($index, $arguments_array['loadedBlocks'])){
+                $content = $arguments_array['loadedBlocks'][$index];
+            }
+
+            if($content !== null){
+                $htmlRendered .= "<div {$style}>{$content}</div>";
+                $content = null;
+                $style = null;
+            }
+        }
+
+        return $htmlRendered;
+    }
+
+    private static $temporaryFolder = '/var/www/find-spots.com/tmp/template/';
+    private static $renderFilePrefix = null;
+    function renderBlocks($arguments_array){
+
         // Create a unique file name to work with during
         // the render process.
         if(self::$renderFilePrefix == null){
@@ -60,12 +89,43 @@ var_dump($arguments_array);
             touch(self::$temporaryFolder . self::$renderFilePrefix);
         }
 
-        foreach($arguments_array['blocksToLoad'] as $fileSuffix =>$blockToRender){
+        // Render all the pages and put them in
+        // separate files.
+        foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
             $blockToRender = escapeshellcmd($blockToRender);
 
-            shell_exec('wget ' . $blockToRender . ' -O ' . self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix . '>/dev/null 2>&1 &');
+            shell_exec(siteProperties::getScriptPath() . 'wgetd ' . $urlToRender . ' ' . self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix . '>/dev/null 2>&1 &');
         }
 
+        // Wait until all the files are
+        // completely loaded.
+        $renderCompleted = false;
+        while(!$renderCompleted){
+
+            $renderCompleted = true;
+            foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
+                if(!file_exists(self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix)){
+                    $renderCompleted = false;
+                }
+            }
+
+            usleep(20000);
+        }
+
+        // Return the array with
+        // the loaded content.
+        foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
+            $block_file = fopen(self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix, "r");
+            $arguments_array['blocksToLoad'][$fileSuffix] = fread($block_file, filesize(self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix));
+            fclose($block_file);
+
+            // Delete the working files.
+            unlink(self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix);
+        }
+        // Delete the 
+        unlink(self::$temporaryFolder . self::$renderFilePrefix);
+
+        return array('loadedBlocks' => $arguments_array['blocksToLoad']);
     }
 }
 
@@ -100,6 +160,7 @@ class page{
 }
 
 class templateStructure{
+
     function template0(){
         return array(
         'a0' => array(
