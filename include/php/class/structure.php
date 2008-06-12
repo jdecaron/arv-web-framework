@@ -49,34 +49,26 @@ class buildStructure{
     }
 
     function renderHtmlStructure($arguments_array){
-        $content = null;
-        $style = null;
-        $htmlRendered = '';
 
         foreach($arguments_array['structure'] as $index => $cell){
             if(is_array($cell)){
-                $htmlRendered .= buildStructure::renderHtmlStructure(array('loadedBlocks' => $arguments_array['loadedBlocks'], 'structure' => $cell));
-            }
+                if(array_key_exists('style', $cell)){
+                    $style = ' style="' . $cell['style'] . '"';
+                }
 
-            if($index == 'style'){
-                $style = 'style="' . $cell . '"';
-            }
-
-            if(array_key_exists($index, $arguments_array['loadedBlocks'])){
-                $content = $arguments_array['loadedBlocks'][$index];
-            }
-
-            if($content !== null){
-                $htmlRendered .= "<div {$style}>{$content}</div>";
-                $content = null;
-                $style = null;
+                $htmlRendered .= '<div id="' . $index . '" ' . $style . '>';
+                if(array_key_exists($index, $arguments_array['loadedBlocks'])){
+                    $htmlRendered .= $arguments_array['loadedBlocks'][$index];
+                }
+                $htmlRendered .= buildStructure::renderHtmlStructure(array('loadedBlocks' => $arguments_array['loadedBlocks'], 'structure' => $cell['childs']));
+                $htmlRendered .= '</div>';
             }
         }
 
         return $htmlRendered;
     }
 
-    private static $temporaryFolder = '/var/www/find-spots.com/tmp/template/';
+    private static $temporaryFolder = '/tmp/';
     private static $renderFilePrefix = null;
     function renderBlocks($arguments_array){
 
@@ -140,7 +132,6 @@ class blockStructure{
     function rails(){
         return 'http://192.168.1.102/find-spots.com/include/tpl/test/page1.php';
     }
-
 }
 
 class page{
@@ -156,7 +147,6 @@ class page{
                         )
         );
     }
-
 }
 
 class templateStructure{
@@ -179,7 +169,7 @@ class templateStructure{
         'a1' => array(
                 'childs' => array(
                                 'a1_b0' => array(
-                                    'load' => 0,
+                                    'load' => 0
                                 )
                             ),
                 'style' => 'clear:both',
