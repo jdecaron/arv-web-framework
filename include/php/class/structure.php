@@ -49,9 +49,11 @@ class buildStructure{
     }
 
     function renderHtmlStructure($arguments_array){
-
+    // Create a "<div>" for every childs
+    // array of the template structure.
         foreach($arguments_array['structure'] as $index => $cell){
             if(is_array($cell)){
+                // Set the style of this "<div>".
                 if(array_key_exists('style', $cell)){
                     $style = ' style="' . $cell['style'] . '"';
                 }
@@ -114,14 +116,16 @@ class buildStructure{
             // Delete the working files.
             unlink(self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix);
         }
-        // Delete the 
+        // Delete the file that is used
+        // to flag that this file name is
+        // in use.
         unlink(self::$temporaryFolder . self::$renderFilePrefix);
 
         return array('loadedBlocks' => $arguments_array['blocksToLoad']);
     }
 }
 
-class blockStructure{
+class block{
 // Class that define all the small blocks
 // used in the main templates.
 
@@ -156,11 +160,11 @@ class templateStructure{
         'a0' => array(
                 'childs' => array(
                             'a0_b0' => array(
-                                        'load' => blockStructure::news(),
+                                        'load' => block::news(),
                                         'style' => 'float:left;'
                                        ),
                             'a0_b1' => array(
-                                        'load' => blockStructure::rails(),
+                                        'load' => block::rails(),
                                         'style' => 'float:left;'
                                        )
                             ),
