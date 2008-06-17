@@ -1,3 +1,4 @@
+<script src="include/js/navigation.js"></script>
 <?
 include 'include/php/class/site.php';
 include 'include/php/class/user.php';
@@ -11,10 +12,10 @@ echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('styl
 echo <<<EOT
 
 {$page_template}
-<textnode>asdas</textnode>
+<abbr><a href="#">asdas</a></abbr>
 <script>
-textnode_array = document.getElementsByTagName('textnode');
-alert(textnode_array[0].innerHTML);
+abbr_array = document.getElementsByTagName('abbr');
+alert(abbr_array[0].innerHTML);
 </script>
 EOT;
 ?>
