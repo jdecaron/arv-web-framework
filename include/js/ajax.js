@@ -74,10 +74,16 @@ function xmlHttp(httpMethod, url, responseAction, formData){
     xmlHttpReq[url] = new createRequestObject();
     xmlHttpReq[url].open(httpMethod, url, true);
     xmlHttpReq[url].setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+
     if (responseAction != null) {
       xmlHttpReq[url].onreadystatechange = function() {
         if (xmlHttpReq[url].readyState == 4) {
-            responseAction(xmlHttpReq[url].responseText);
+            if(responseAction.name == 'loadContentInElementId'){
+                responseAction(xmlHttpReq[url].responseText, url);
+            }else{
+                responseAction(xmlHttpReq[url].responseText);
+            }
         }
       }
     }
