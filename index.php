@@ -1,5 +1,8 @@
+<!--AJAX navigation system.-->
 <script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
+
+<!--AJAX history management.-->
 <script type="text/javascript" src="include/js/json2007.js"></script>
 <script type="text/javascript" src="include/js/rsh.js"></script>
 <script type="text/javascript">
@@ -14,6 +17,8 @@ window.onload = function() {
     dhtmlHistory.addListener(yourListener);
 };
 </script>
+
+
 <?
 include 'include/php/class/site.php';
 include 'include/php/class/user.php';
@@ -31,8 +36,13 @@ echo <<<EOT
 {$page_template}
 <abbr><a href="#">asdas</a></abbr>
 <script>
-//abbr_array = document.getElementsByTagName('abbr');
-//alert(abbr_array[0].innerHTML);
+abbr_array = document.getElementsByTagName('abbr');
+alert(abbr_array[0].innerHTML);
 </script>
 EOT;
+
+
 ?>
+<!--Include the JavaScript file that contains
+all the structure of the templates and of the pages.-->
+<script src="include/js/templates.js"></script>
