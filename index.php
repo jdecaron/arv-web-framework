@@ -24,8 +24,7 @@ include 'include/php/class/site.php';
 include 'include/php/class/user.php';
 include siteProperties::getClassPath() . 'structure.php';
 
-$structure = new buildStructure();
-$page_template =  $structure->html(array('page' => 'index'));
+$page_template =  buildStructure::html(array('page' => 'index'));
 
 echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=forum&sauce=1'))) . '>asdasd</a>';
 echo ' ';
@@ -45,10 +44,11 @@ EOT;
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
-<?//var_dump(siteTools::arrayToXml(array('elements' => templateStructure::template0(), 'rootElement' => 'template')))?>
 <script>
-<?buildStructure::renderStructureAsJSObject(array('structureName' => 'page')); echo "\n";?>
-<?buildStructure::renderStructureAsJSObject(array('structureName' => 'template')); echo "\n";?>
-alert(page.index());
+<?=buildStructure::renderStructureAsJSObject(array('structureName' => 'page'));?>
+
+<?=buildStructure::renderStructureAsJSObject(array('structureName' => 'template'));?>
+
+alert(template.template0());
 xmlDOM(page.index());
 </script>

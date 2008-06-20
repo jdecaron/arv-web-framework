@@ -134,21 +134,28 @@ class buildStructure{
         // Build a window variable that holds the page
         // object which contains the template to load and
         // the block as well.
-        echo "window.{$arguments_array[structureName]} = {";
+        $structure = "window.{$arguments_array[structureName]} = {";
 
+        $counter = 0;
         foreach($pageNames_array as $cell){
-            echo $cell . ': function(){' .
-                 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)))) . '" ' .
-                 '}';
+            if($counter > 0){
+                $structure .= ',';
+            }
+            $structure .= $cell . ': function(){' . 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)))) . '" ' . '}';
+            $counter++;
         }
 
-        echo '}';
+        return $structure .= '}';
     }
 }
 
 class block{
 // Class that define all the small blocks
 // used in the main templates.
+
+    function blogs(){
+        return 'http://192.168.1.102/find-spots.com/include/tpl/test/blogs.php';
+    }
 
     function news(){
         return 'http://192.168.1.102/find-spots.com/include/tpl/test/page2.php';
@@ -166,7 +173,7 @@ class page{
 
     function index(){
         return array(
-            'template' => 'template0',
+            'template' => 'template1',
             'content' => array(
                             'http://192.168.1.102/find-spots.com/include/tpl/test/page3.php'
                         )
@@ -198,6 +205,32 @@ class template{
                                 )
                             ),
                 'style' => 'clear:both',
+                ),
+        'title' => 'Find-Spots.com'
+        );
+    }
+
+    function template1(){
+        return array(
+        'a0' => array(
+                'childs' => array(
+                            'a0_b0' => array(
+                                        'load' => block::news(),
+                                        'style' => 'float:left;'
+                                       ),
+                            'a0_b1' => array(
+                                        'load' => block::news(),
+                                        'style' => 'float:left;'
+                                       ),
+                            'a0_b2' => array(
+                                        'load' => block::rails(),
+                                        'style' => 'float:left;'
+                                       )
+                            ),
+                'style' => 'clear:both',
+                ),
+        'a1' => array(
+                'load' => block::blogs()
                 ),
         'title' => 'Find-Spots.com'
         );
