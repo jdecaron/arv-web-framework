@@ -9,7 +9,7 @@
 window.dhtmlHistory.create();
 
 var yourListener = function(newLocation, historyData) {
-    alert('aaaa');
+    //alert('aaaa');
 }
 
 window.onload = function() {
@@ -36,8 +36,8 @@ echo <<<EOT
 {$page_template}
 <abbr><a href="#">asdas</a></abbr>
 <script>
-abbr_array = document.getElementsByTagName('abbr');
-alert(abbr_array[0].innerHTML);
+//abbr_array = document.getElementsByTagName('abbr');
+//alert(abbr_array[0].innerHTML);
 </script>
 EOT;
 
@@ -45,4 +45,16 @@ EOT;
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
-<script src="include/js/templates.js"></script>
+<?var_dump(siteTools::arrayToXml(array('elements' => templateStructure::template0(), 'rootElement' => 'template')))?>
+<?//var_dump(get_class_methods('templateStructure'));?>
+<script>
+window.templateStructure = {
+/* convert php array to a javascript array */
+    windowAlert: function(){
+        var arrayVar = new Object();
+        arrayVar.sauce = 'aaaaaaaa';
+        return arrayVar.sauce;
+    }
+}
+alert(templateStructure.windowAlert());
+</script>

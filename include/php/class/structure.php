@@ -123,6 +123,23 @@ class buildStructure{
 
         return array('loadedBlocks' => $arguments_array['blocksToLoad']);
     }
+
+    function phpArrayToJavaScript($arguments_array){
+
+        $javaScriptArray = '[';
+        foreach($arguments_array['array'] as $index => $cell){
+
+            // Add a ',' character in between the two array
+            // values but skip the first value because it's
+            // the beginning of the array.
+            if($javaScriptArray != '['){
+                $javaScriptArray .= ',';
+            }
+        }
+        $javaScriptArray = ']';
+
+        return 'a';
+    }
 }
 
 class block{
