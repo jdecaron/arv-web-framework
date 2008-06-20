@@ -45,16 +45,10 @@ EOT;
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
-<?var_dump(siteTools::arrayToXml(array('elements' => templateStructure::template0(), 'rootElement' => 'template')))?>
-<?//var_dump(get_class_methods('templateStructure'));?>
+<?//var_dump(siteTools::arrayToXml(array('elements' => templateStructure::template0(), 'rootElement' => 'template')))?>
 <script>
-window.templateStructure = {
-/* convert php array to a javascript array */
-    windowAlert: function(){
-        var arrayVar = new Object();
-        arrayVar.sauce = 'aaaaaaaa';
-        return arrayVar.sauce;
-    }
-}
-alert(templateStructure.windowAlert());
+<?buildStructure::renderStructureAsJSObject(array('structureName' => 'page')); echo "\n";?>
+<?buildStructure::renderStructureAsJSObject(array('structureName' => 'template')); echo "\n";?>
+alert(page.index());
+xmlDOM(page.index());
 </script>

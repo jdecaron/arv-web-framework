@@ -32,7 +32,7 @@ class buildStructure{
         // Get the content to load and on which
         // template it has to be done.
         $page_array = page::$arguments_array['page']();
-        $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => templateStructure::$page_array['template'](), 'blocksToLoad' => array()));
+        $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => template::$page_array['template'](), 'blocksToLoad' => array()));
 
         // Replace the empty dynamic
         // blocks by the URL's of the pages
@@ -124,21 +124,25 @@ class buildStructure{
         return array('loadedBlocks' => $arguments_array['blocksToLoad']);
     }
 
-    function phpArrayToJavaScript($arguments_array){
+    function renderStructureAsJSObject($arguments_array){
+    // Render the structure of the elements as
+    // JavaScript objects which contains functions
+    // that returns XML based on the same structure
+    // of the PHP arrays.
+        $pageNames_array = get_class_methods($arguments_array['structureName']);
 
-        $javaScriptArray = '[';
-        foreach($arguments_array['array'] as $index => $cell){
+        // Build a window variable that holds the page
+        // object which contains the template to load and
+        // the block as well.
+        echo "window.{$arguments_array[structureName]} = {";
 
-            // Add a ',' character in between the two array
-            // values but skip the first value because it's
-            // the beginning of the array.
-            if($javaScriptArray != '['){
-                $javaScriptArray .= ',';
-            }
+        foreach($pageNames_array as $cell){
+            echo $cell . ': function(){' .
+                 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)))) . '" ' .
+                 '}';
         }
-        $javaScriptArray = ']';
 
-        return 'a';
+        echo '}';
     }
 }
 
@@ -170,7 +174,7 @@ class page{
     }
 }
 
-class templateStructure{
+class template{
 
     function template0(){
         return array(
