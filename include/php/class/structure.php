@@ -32,7 +32,8 @@ class buildStructure{
         // Get the content to load and on which
         // template it has to be done.
         $page_array = page::$arguments_array['page']();
-        $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => template::$page_array['template'](), 'blocksToLoad' => array()));
+        $template_array = template::$page_array['template']();
+        $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => $template_array['childs'], 'blocksToLoad' => array()));
 
         // Replace the empty dynamic
         // blocks by the URL's of the pages
@@ -141,7 +142,7 @@ class buildStructure{
             if($counter > 0){
                 $structure .= ',';
             }
-            $structure .= $cell . ': function(){' . 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)))) . '" ' . '}';
+            $structure .= $cell . ': function(){' . 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)), 'rootElement' => 'template')) . '" ' . '}';
             $counter++;
         }
 
@@ -173,7 +174,7 @@ class page{
 
     function index(){
         return array(
-            'template' => 'template1',
+            'template' => 'template0',
             'content' => array(
                             'http://192.168.1.102/find-spots.com/include/tpl/test/page3.php'
                         )
@@ -185,53 +186,57 @@ class template{
 
     function template0(){
         return array(
-        'a0' => array(
-                'childs' => array(
-                            'a0_b0' => array(
-                                        'load' => block::news(),
-                                        'style' => 'float:left;'
-                                       ),
-                            'a0_b1' => array(
-                                        'load' => block::rails(),
-                                        'style' => 'float:left;'
-                                       )
+        'childs' => array(
+                    'a0' => array(
+                            'childs' => array(
+                                        'a0_b0' => array(
+                                                    'load' => block::news(),
+                                                    'style' => 'float:left;'
+                                                   ),
+                                        'a0_b1' => array(
+                                                    'load' => block::rails(),
+                                                    'style' => 'float:left;'
+                                                   )
+                                        ),
+                            'style' => 'clear:both',
                             ),
-                'style' => 'clear:both',
-                ),
-        'a1' => array(
-                'childs' => array(
-                                'a1_b0' => array(
-                                    'load' => 0
-                                )
-                            ),
-                'style' => 'clear:both',
-                ),
+                    'a1' => array(
+                            'childs' => array(
+                                            'a1_b0' => array(
+                                                'load' => 0
+                                            )
+                                        ),
+                            'style' => 'clear:both',
+                            )
+                    ),
         'title' => 'Find-Spots.com'
         );
     }
 
     function template1(){
         return array(
-        'a0' => array(
-                'childs' => array(
-                            'a0_b0' => array(
-                                        'load' => block::news(),
-                                        'style' => 'float:left;'
-                                       ),
-                            'a0_b1' => array(
-                                        'load' => block::news(),
-                                        'style' => 'float:left;'
-                                       ),
-                            'a0_b2' => array(
-                                        'load' => block::rails(),
-                                        'style' => 'float:left;'
-                                       )
+        'childs' => array(
+                    'a0' => array(
+                            'childs' => array(
+                                        'a0_b0' => array(
+                                                    'load' => block::news(),
+                                                    'style' => 'float:left;'
+                                                   ),
+                                        'a0_b1' => array(
+                                                    'load' => block::news(),
+                                                    'style' => 'float:left;'
+                                                   ),
+                                        'a0_b2' => array(
+                                                    'load' => block::rails(),
+                                                    'style' => 'float:left;'
+                                                   )
+                                        ),
+                            'style' => 'clear:both',
                             ),
-                'style' => 'clear:both',
-                ),
-        'a1' => array(
-                'load' => block::blogs()
-                ),
+                    'a1' => array(
+                            'load' => block::blogs()
+                            )
+        ),
         'title' => 'Find-Spots.com'
         );
     }
