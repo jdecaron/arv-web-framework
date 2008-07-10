@@ -155,15 +155,15 @@ class block{
 // used in the main templates.
 
     function blogs(){
-        return 'http://192.168.1.102/find-spots.com/include/tpl/test/blogs.php';
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/blogs.php';
     }
 
     function news(){
-        return 'http://192.168.1.102/find-spots.com/include/tpl/test/page2.php';
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page2.php';
     }
 
     function rails(){
-        return 'http://192.168.1.102/find-spots.com/include/tpl/test/page1.php';
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page1.php';
     }
 }
 
@@ -176,7 +176,7 @@ class page{
         return array(
             'template' => 'template0',
             'content' => array(
-                            'http://192.168.1.102/find-spots.com/include/tpl/test/page3.php'
+                            'http://192.168.1.101/find-spots.com/include/tpl/test/page3.php'
                         )
         );
     }
@@ -184,7 +184,36 @@ class page{
 
 class template{
 
+
     function template0(){
+        return array(
+        'childs' => array(
+                    'a0' => array(
+                            'childs' => array(
+                                        'a0_b0' => array(
+                                                    'load' => block::news(),
+                                                    'style' => 'float:left;'
+                                                   ),
+                                        'a0_b1' => array(
+                                                    'load' => block::news(),
+                                                    'style' => 'float:left;'
+                                                   ),
+                                        'a0_b2' => array(
+                                                    'load' => block::rails(),
+                                                    'style' => 'float:left;'
+                                                   )
+                                        ),
+                            'style' => 'clear:both',
+                            ),
+                    'a1' => array(
+                            'load' => block::blogs()
+                            )
+        ),
+        'title' => 'Find-Spots.com'
+        );
+    }
+
+    function template1(){
         return array(
         'childs' => array(
                     'a0' => array(
@@ -213,33 +242,6 @@ class template{
         );
     }
 
-    function template1(){
-        return array(
-        'childs' => array(
-                    'a0' => array(
-                            'childs' => array(
-                                        'a0_b0' => array(
-                                                    'load' => block::news(),
-                                                    'style' => 'float:left;'
-                                                   ),
-                                        'a0_b1' => array(
-                                                    'load' => block::news(),
-                                                    'style' => 'float:left;'
-                                                   ),
-                                        'a0_b2' => array(
-                                                    'load' => block::rails(),
-                                                    'style' => 'float:left;'
-                                                   )
-                                        ),
-                            'style' => 'clear:both',
-                            ),
-                    'a1' => array(
-                            'load' => block::blogs()
-                            )
-        ),
-        'title' => 'Find-Spots.com'
-        );
-    }
 }
 
 ?>
