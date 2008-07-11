@@ -166,16 +166,16 @@ class block{
         return 'http://192.168.1.101/find-spots.com/include/tpl/test/page1.php';
     }
 
+    function page3(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page3.php';
+    }
+
     function page4(){
         return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page5(){
         return 'http://192.168.1.101/find-spots.com/include/tpl/test/page5.php';
-    }
-
-    function page6(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page7(){
@@ -205,7 +205,7 @@ class page{
 class template{
 
 
-    function template1(){
+    function template0(){
         return array(
         'childs' => array(
                     'a0' => array(
@@ -233,7 +233,7 @@ class template{
         );
     }
 
-    function template0(){
+    function template1(){
         return array(
         'childs' => array(
                     'a0' => array(
@@ -252,7 +252,7 @@ class template{
                     'a1' => array(
                             'childs' => array(
                                             'a1_b0' => array(
-                                                'load' => 0,
+                                                'load' => block::page3(),
                                                 'style' => 'float:left;'
                                             ),
                                             'a1_b1' => array(

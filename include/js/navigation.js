@@ -102,7 +102,6 @@ function compare2Structures(actual_xml, next_xml){
 
         // Delete the blocks.
         for(var k=0;k<(actual_xml.childNodes.length-next_xml.childNodes.length);k++){
-            //Element.remove($('a0_b2'));
             nameTags_array[nameTags_array.length-1] = (nameTags_array[nameTags_array.length-1].substr(0,1)) + (actual_xml.childNodes.length-(actual_xml.childNodes.length-next_xml.childNodes.length)+k);
             Element.remove($(nameTags_array.join('_')));
         }
@@ -124,44 +123,47 @@ function compare2Structures(actual_xml, next_xml){
                 // at that stage of the loading of the new structure.
                 // This is done with a "Try" to avoid errors and
                 // crash the process.
-                actualChildsNodeStatus = Try.these(function() {return next_xml.childNodes[i].childNodes[j].nodeName == 'childs';});
+                nextChildsStatus = Try.these(function() {return next_xml.childNodes[i].childNodes[j].nodeName == 'childs';});
 
-                if(actualChildsNodeStatus){
+                if(nextChildsStatus){
+                    // Create the block if it doesn't exists.
+                    if($(next_xml.childNodes[i].nodeName) == null){
+                        new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '"></div>');
+                    }
+
                     if(Try.these(function() {return actual_xml.childNodes[i].childNodes[j];}) == undefined){
                         actualTree_xml = '';
                     }else{
                         actualTree_xml = actual_xml.childNodes[i].childNodes[j];
                     }
-                    //alert('create block if it doesnt exists');
                     compare2Structures(actualTree_xml, next_xml.childNodes[i].childNodes[j]);
                 }else{
                     if(next_xml.childNodes[i].childNodes[j].nodeName == 'load'){
+                        // This node has content to load.
+                        for(var c=0;c<window.nextUrlList_array.length;c++){
+                            if(window.nextUrlList_array[c][0] == next_xml.childNodes[i].nodeName){
+                                var nextBlockContent = window.nextUrlList_array[c][1];
+                            }
+                        }
 
-                        urlComparisonStatus = Try.these(function() {return actual_xml.childNodes[i].childNodes[j].firstChild.nodeValue != next_xml.childNodes[i].childNodes[j].firstChild.nodeValue;});
-alert(next_xml.childNodes[i].nodeName);
-                        if(urlComparisonStatus || !isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue)){
-                            // Replace or create the block with the content and
-                            // the style of the block of the new page.
-                            for(var c=0;c<window.nextUrlList_array.length;c++){
-                                if(window.nextUrlList_array[c][0] == next_xml.childNodes[i].nodeName){
-                                    Try.these(
-                                        function(){Element.remove($(next_xml.childNodes[i].nodeName));}
-                                    );
-                                    // Add the block at end of the HTML element.
-                                    new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '">' + window.nextUrlList_array[c][1] + '</div>');
-                                }
+                        if(Try.these(function() {return actual_xml.childNodes[i].childNodes[j].hasChildNodes() == true;}) != undefined){
+                            // Replace the content of the already
+                            // existing block if the value of the node
+                            // is an URL.
+                            if(isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue)){
+                                $(next_xml.childNodes[i].nodeName).innerHTML = nextBlockContent;
                             }
                         }else{
-alert('don');
-                            // Do nothing.
+                            // Build the block and insert the content
+                            // at the end of the parent.
+                            new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '">' + nextBlockContent + '</div>');
                         }
                     }
                 }
 
                 // Set the style of this block.
                 if(next_xml.childNodes[i].childNodes[j].nodeName == 'style'){
-                    alert(next_xml.childNodes[i].nodeName + ' ' + next_xml.childNodes[i].childNodes[j].nodeName + ' ' + next_xml.childNodes[i].childNodes[j].firstChild.nodeValue);
-                    Element.setStyle(next_xml.childNodes[i].nodeName, next_xml.childNodes[i]    .childNodes[j].firstChild.nodeValue);
+                    Element.setStyle(next_xml.childNodes[i].nodeName, next_xml.childNodes[i].childNodes[j].firstChild.nodeValue);
                 }
 
         }
