@@ -57,7 +57,6 @@ function loadUrlInArray(response, url){
     // All the blocks has been loaded and it's now
     // time to change the content displayed to the user.
     if(window.urlsToLoad_array.length == 0){
-        //alert(window.nextUrlList_array);
         compare2Structures(template_xml.firstChild.firstChild, template1_xml.firstChild.firstChild);
     }
 }
@@ -96,7 +95,7 @@ function processTemplateStructure(childs_xml, action){
 function compare2Structures(actual_xml, next_xml){
     // Delete the HTML elements that are not in
     // the new template.
-    if(actual_xml.childNodes.length > next_xml.childNodes.length){
+    if(Try.these(function() {return actual_xml.childNodes.length > next_xml.childNodes.length;})){
         // Get the actual name tag and replace the last
         // part with the blocks numbers to delete.
         nameTags_array = next_xml.childNodes[0].nodeName.split('_');
@@ -111,53 +110,60 @@ function compare2Structures(actual_xml, next_xml){
 
     // Clean the blocks from their previous content if
     // they have no childs anymore. 
+    blockToClean_array = next_xml.childNodes[0].nodeName.split('_')
+    blockToClean_array = blockToClean_array.slice(0,blockToClean_array.length-1);
     if(Try.these(function() {return actual_xml.childNodes[0].childNodes[0] == undefined;})){
-        
+        Try.these(function() {$(blockToClean_array.join('_')).innerHTML = '';});
     }
 
     // Process the nodes "childs" of this node.
     for(var i=0;i<next_xml.childNodes.length;i++){
 
         for(var j=0;j<next_xml.childNodes[i].childNodes.length;j++){
-           /* // Si ya de quoi et ya rien dans le vieux. Alors load la structure. */
-           /* // Sinon, envoie les enfants a la fonction recursive. */
-                
                 // Verify if the actual structure has childs
                 // at that stage of the loading of the new structure.
                 // This is done with a "Try" to avoid errors and
                 // crash the process.
                 actualChildsNodeStatus = Try.these(function() {return next_xml.childNodes[i].childNodes[j].nodeName == 'childs';});
 
-                if(next_xml.childNodes[i].childNodes[j].nodeName == 'childs' && actualChildsNodeStatus){
-                    alert('create block if it doesnt exists');
-                    compare2Structures(actual_xml.childNodes[i].childNodes[j], next_xml.childNodes[i].childNodes[j]);
+                if(actualChildsNodeStatus){
+                    if(Try.these(function() {return actual_xml.childNodes[i].childNodes[j];}) == undefined){
+                        actualTree_xml = '';
+                    }else{
+                        actualTree_xml = actual_xml.childNodes[i].childNodes[j];
+                    }
+                    //alert('create block if it doesnt exists');
+                    compare2Structures(actualTree_xml, next_xml.childNodes[i].childNodes[j]);
                 }else{
                     if(next_xml.childNodes[i].childNodes[j].nodeName == 'load'){
 
                         urlComparisonStatus = Try.these(function() {return actual_xml.childNodes[i].childNodes[j].firstChild.nodeValue != next_xml.childNodes[i].childNodes[j].firstChild.nodeValue;});
+alert(next_xml.childNodes[i].nodeName);
                         if(urlComparisonStatus || !isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue)){
                             // Replace or create the block with the content and
                             // the style of the block of the new page.
                             for(var c=0;c<window.nextUrlList_array.length;c++){
                                 if(window.nextUrlList_array[c][0] == next_xml.childNodes[i].nodeName){
-                                    
-//new Insertion.Bottom('person', " What's up?");
-//alert(next_xml.childNodes[i].nodeName);
                                     Try.these(
                                         function(){Element.remove($(next_xml.childNodes[i].nodeName));}
                                     );
+                                    // Add the block at end of the HTML element.
+                                    new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '">' + window.nextUrlList_array[c][1] + '</div>');
                                 }
                             }
                         }else{
+alert('don');
                             // Do nothing.
                         }
                     }
                 }
 
-           /* // Si la valeur de load n'est pas numerique et qu'elle n'egale pas alors le contenu dans le block est charge. */
-            /*if(next_xml.childNodes[i].childNodes[j].nodeName == 'load' && action == 'actual'){
-                window.actualUrlList_array[next_xml.childNodes[i].childNodes[j].firstChild.nodeValue] = next_xml.childNodes[i].nodeName;
-            }*/
+                // Set the style of this block.
+                if(next_xml.childNodes[i].childNodes[j].nodeName == 'style'){
+                    alert(next_xml.childNodes[i].nodeName + ' ' + next_xml.childNodes[i].childNodes[j].nodeName + ' ' + next_xml.childNodes[i].childNodes[j].firstChild.nodeValue);
+                    Element.setStyle(next_xml.childNodes[i].nodeName, next_xml.childNodes[i]    .childNodes[j].firstChild.nodeValue);
+                }
+
         }
     }
 }

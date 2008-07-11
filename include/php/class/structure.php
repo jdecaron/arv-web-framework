@@ -205,7 +205,7 @@ class page{
 class template{
 
 
-    function template0(){
+    function template1(){
         return array(
         'childs' => array(
                     'a0' => array(
@@ -233,7 +233,7 @@ class template{
         );
     }
 
-    function template1(){
+    function template0(){
         return array(
         'childs' => array(
                     'a0' => array(
