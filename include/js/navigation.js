@@ -29,7 +29,7 @@ function loadBlocks(){
     for(var i=0;i<window.nextUrlList_array.length;i++){
         if(window.actualUrlList_array[window.nextUrlList_array[i][1]] != null && isNaN(window.nextUrlList_array[i][1])){
             // Get the content of the blocks which
-            // they are already loaded in the page and
+            // are already loaded in the page and
             // save it in the array which will be used
             // to show in next page.
             window.nextUrlList_array[i][1] = document.getElementById(window.actualUrlList_array[window.nextUrlList_array[i][1]]).innerHTML;
@@ -109,6 +109,11 @@ function compare2Structures(actual_xml, next_xml){
         }
     }
 
+    // Clean the blocks from their previous content if
+    // they have no childs anymore. 
+    if(Try.these(function() {return actual_xml.childNodes[0].childNodes[0] == undefined;})){
+        
+    }
 
     // Process the nodes "childs" of this node.
     for(var i=0;i<next_xml.childNodes.length;i++){
@@ -121,16 +126,32 @@ function compare2Structures(actual_xml, next_xml){
                 // at that stage of the loading of the new structure.
                 // This is done with a "Try" to avoid errors and
                 // crash the process.
-                actualChildsNodeStatus = Try.these(
-                        function() {return next_xml.childNodes[i].childNodes[j].nodeName == 'childs';}
-                        );
+                actualChildsNodeStatus = Try.these(function() {return next_xml.childNodes[i].childNodes[j].nodeName == 'childs';});
 
                 if(next_xml.childNodes[i].childNodes[j].nodeName == 'childs' && actualChildsNodeStatus){
-                    // Load the blocks that are different from
-                    // the current structure and the new one.
+                    alert('create block if it doesnt exists');
                     compare2Structures(actual_xml.childNodes[i].childNodes[j], next_xml.childNodes[i].childNodes[j]);
                 }else{
-                    // Load that branch now.
+                    if(next_xml.childNodes[i].childNodes[j].nodeName == 'load'){
+
+                        urlComparisonStatus = Try.these(function() {return actual_xml.childNodes[i].childNodes[j].firstChild.nodeValue != next_xml.childNodes[i].childNodes[j].firstChild.nodeValue;});
+                        if(urlComparisonStatus || !isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue)){
+                            // Replace or create the block with the content and
+                            // the style of the block of the new page.
+                            for(var c=0;c<window.nextUrlList_array.length;c++){
+                                if(window.nextUrlList_array[c][0] == next_xml.childNodes[i].nodeName){
+                                    
+//new Insertion.Bottom('person', " What's up?");
+//alert(next_xml.childNodes[i].nodeName);
+                                    Try.these(
+                                        function(){Element.remove($(next_xml.childNodes[i].nodeName));}
+                                    );
+                                }
+                            }
+                        }else{
+                            // Do nothing.
+                        }
+                    }
                 }
 
            /* // Si la valeur de load n'est pas numerique et qu'elle n'egale pas alors le contenu dans le block est charge. */

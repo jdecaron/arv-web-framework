@@ -60,5 +60,4 @@ all the structure of the templates and of the pages.-->
 <?=buildStructure::renderStructureAsJSObject(array('structureName' => 'template'));?>
 
 alert(template.template0());
-xmlDOM(page.index());
 </script>

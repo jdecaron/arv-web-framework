@@ -165,6 +165,26 @@ class block{
     function rails(){
         return 'http://192.168.1.101/find-spots.com/include/tpl/test/page1.php';
     }
+
+    function page4(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+    }
+
+    function page5(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page5.php';
+    }
+
+    function page6(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+    }
+
+    function page7(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+    }
+
+    function page8(){
+        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+    }
 }
 
 class page{
@@ -223,7 +243,7 @@ class template{
                                                     'style' => 'float:left;'
                                                    ),
                                         'a0_b1' => array(
-                                                    'load' => block::rails(),
+                                                    'load' => block::page4(),
                                                     'style' => 'float:left;'
                                                    )
                                         ),
@@ -232,7 +252,17 @@ class template{
                     'a1' => array(
                             'childs' => array(
                                             'a1_b0' => array(
-                                                'load' => 0
+                                                'load' => 0,
+                                                'style' => 'float:left;'
+                                            ),
+                                            'a1_b1' => array(
+                                                'childs' => array(
+                                                                'a1_b1_c0' => array(
+                                                                    'load' => block::page5(),
+                                                                    'style' => 'float:left;'
+                                                                )
+                                                            ),
+                                                'style' => 'float:left;'
                                             )
                                         ),
                             'style' => 'clear:both',
