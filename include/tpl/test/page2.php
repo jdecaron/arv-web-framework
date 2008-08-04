@@ -1,4 +1,4 @@
-<div style="background-color:green;width:250px;">
+<div style="background-image:url(include/tpl/test/garden_hires2.jpg);width:250px;">
 <br>
 <br>
 <br>

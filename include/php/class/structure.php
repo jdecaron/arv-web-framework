@@ -32,7 +32,7 @@ class buildStructure{
         // Get the content to load and on which
         // template it has to be done.
         $page_array = page::$arguments_array['page']();
-        $template_array = template::$page_array['template']();
+        $template_array = template::$page_array['load']();
         $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => $template_array['childs'], 'blocksToLoad' => array()));
 
         // Replace the empty dynamic
@@ -142,7 +142,7 @@ class buildStructure{
             if($counter > 0){
                 $structure .= ',';
             }
-            $structure .= $cell . ': function(){' . 'return "' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)), 'rootElement' => 'template')) . '" ' . '}';
+            $structure .= $cell . ': function(){' . 'nextStructure("' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)), 'rootElement' => 'template')) . '");' . '}';
             $counter++;
         }
 
@@ -194,7 +194,7 @@ class page{
 
     function index(){
         return array(
-            'template' => 'template0',
+            'load' => 'template0',
             'content' => array(
                             'http://192.168.1.101/find-spots.com/include/tpl/test/page3.php'
                         )
@@ -203,7 +203,6 @@ class page{
 }
 
 class template{
-
 
     function template0(){
         return array(
@@ -219,7 +218,7 @@ class template{
                                                     'style' => 'float:left;'
                                                    ),
                                         'a0_b2' => array(
-                                                    'load' => block::rails(),
+                                                    'load' => block::page5(),
                                                     'style' => 'float:left;'
                                                    )
                                         ),

@@ -3,12 +3,12 @@
 <script src="include/js/navigation.js"></script>
 
 <!--AJAX history management.-->
-<script type="text/javascript" src="include/js/rsh.js"></script>
+<script src="include/js/rsh.js"></script>
 
 <!--Prototype, hosted by Google.-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
 
-<script type="text/javascript">
+<script>
 window.dhtmlHistory.create({
     toJSON: function(o) {
         return Object.toJSON(o);
@@ -42,7 +42,9 @@ echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('styl
 
 echo <<<EOT
 
+<script>if(window.location.hash){document.write("<div style='visibility:hidden;'>");}</script>
 {$page_template}
+<script>if(window.location.hash){document.write("</div>");}</script>
 <abbr><a href="#">asdas</a></abbr>
 <script>
 //abbr_array = document.getElementsByTagName('abbr');
@@ -59,5 +61,5 @@ all the structure of the templates and of the pages.-->
 
 <?=buildStructure::renderStructureAsJSObject(array('structureName' => 'template'));?>
 
-alert(template.template0());
+//alert(template.template0());
 </script>

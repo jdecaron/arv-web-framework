@@ -1,27 +1,33 @@
-function userLinkClick(url, type){
+function loadPage(url){
+
+// Write a function that return the next structure
+// with the URLs replaced in the load nodes.
 
     dhtmlHistory.add(url, 1);
 
-    // Process the URL with the AJAX
-    // page loading system.
-    if(type == 'ajax'){
-        var url_array = url.split('&')
+    var url_array = url.split('&')
 
-        // Start the loading indacator for
-        // the users.
-        //loadUrlInElementId('http://192.168.1.102/find-spots.com/include/tpl/test/page2.php', 'a0_b1');
+    // Start the loading indacator for
+    // the users.
+    //loadUrlInElementId('http://192.168.1.102/find-spots.com/include/tpl/test/page2.php', 'a0_b1');
 
-        template_xml = xmlDOM(template.template0());
-        template1_xml = xmlDOM(template.template1());
-        // Retrieve all the URLs of a template and put them in
-        // an associative array.
-        window.actualUrlList_array = Array();
-        processTemplateStructure(template_xml.firstChild.firstChild, 'actual');
-        window.nextUrlList_array = [];
-        processTemplateStructure(template1_xml.firstChild.firstChild, 'next');
-        loadBlocks();
-
+    // Get the actual template structure.
+    if(window.location.hash){
+    }else{
     }
+
+    alert(page.index());
+
+    template_xml = xmlDOM(template.template0());
+    template1_xml = xmlDOM(template.template1());
+
+    // Retrieve all the URLs of a template and put them in
+    // an associative array.
+    /*window.actualUrlList_array = Array();
+    processTemplateStructure(template_xml.firstChild.firstChild, 'actual');
+    window.nextUrlList_array = [];
+    processTemplateStructure(template1_xml.firstChild.firstChild, 'next');
+    loadBlocks();*/
 }
 
 function loadBlocks(){
@@ -68,6 +74,10 @@ var requestedUrlToLoadIn_array = Array();
 function loadUrlInElementId(url, elementId){
     requestedUrlToLoadIn_array[url] = elementId;
     xmlHttp('get', url, loadContentInElementId, null);
+}
+
+function nextStructure(nextStructureTemplate){
+    alert(nextStructureTemplate);
 }
 
 function loadContentInElementId(response, url){
@@ -150,7 +160,7 @@ function compare2Structures(actual_xml, next_xml){
                             // Replace the content of the already
                             // existing block if the value of the node
                             // is an URL.
-                            if(isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue)){
+                            if(isNaN(next_xml.childNodes[i].childNodes[j].firstChild.nodeValue) && actual_xml.childNodes[i].childNodes[j].firstChild.nodeValue != next_xml.childNodes[i].childNodes[j].firstChild.nodeValue){
                                 $(next_xml.childNodes[i].nodeName).innerHTML = nextBlockContent;
                             }
                         }else{
@@ -165,7 +175,6 @@ function compare2Structures(actual_xml, next_xml){
                 if(next_xml.childNodes[i].childNodes[j].nodeName == 'style'){
                     Element.setStyle(next_xml.childNodes[i].nodeName, next_xml.childNodes[i].childNodes[j].firstChild.nodeValue);
                 }
-
         }
     }
 }
