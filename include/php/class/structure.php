@@ -32,7 +32,7 @@ class buildStructure{
         // Get the content to load and on which
         // template it has to be done.
         $page_array = page::$arguments_array['page']();
-        $template_array = template::$page_array['load']();
+        $template_array = template::$page_array['template']();
         $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => $template_array['childs'], 'blocksToLoad' => array()));
 
         // Replace the empty dynamic
@@ -142,7 +142,7 @@ class buildStructure{
             if($counter > 0){
                 $structure .= ',';
             }
-            $structure .= $cell . ': function(){' . 'nextStructure("' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)), 'rootElement' => 'template')) . '");' . '}';
+            $structure .= $cell . ': function(){' . 'return returnStructure("' . siteTools::arrayToXml(array('elements' => call_user_func(array($arguments_array['structureName'], $cell)), 'rootElement' => 'structure')) . '");' . '}';
             $counter++;
         }
 
@@ -194,9 +194,9 @@ class page{
 
     function index(){
         return array(
-            'load' => 'template0',
+            'template' => 'template0',
             'content' => array(
-                            'http://192.168.1.101/find-spots.com/include/tpl/test/page3.php'
+                            'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php'
                         )
         );
     }
@@ -204,13 +204,13 @@ class page{
 
 class template{
 
-    function template0(){
+    function template1(){
         return array(
         'childs' => array(
                     'a0' => array(
                             'childs' => array(
                                         'a0_b0' => array(
-                                                    'load' => block::news(),
+                                                    'load' => 0,
                                                     'style' => 'float:left;'
                                                    ),
                                         'a0_b1' => array(
@@ -232,7 +232,7 @@ class template{
         );
     }
 
-    function template1(){
+    function template0(){
         return array(
         'childs' => array(
                     'a0' => array(
