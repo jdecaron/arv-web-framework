@@ -8,7 +8,7 @@
 <script type="text/javascript" src="include/js/rsh.js"></script>
 
 <!--Prototype, hosted by Google.-->
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+<script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
 <script type="text/javascript">
 window.dhtmlHistory.create({

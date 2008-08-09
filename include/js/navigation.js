@@ -39,7 +39,7 @@ function loadBlocks(){
                 window.nextUrlList_array[i][1] = mergedUrl;
             }
             window.urlsToLoad_array[window.urlsToLoad_array.length] = [i, window.nextUrlList_array[i][1]];
-            xmlHttp('get', window.nextUrlList_array[i][1], loadUrlInArray, null);
+            new Ajax.Request( window.nextUrlList_array[i][1], { method: 'get', onComplete: loadUrlInArray });
         }
     }
 }
@@ -65,12 +65,12 @@ function returnStructure(template){
     }
 }
 
-function loadUrlInArray(response, url){
+function loadUrlInArray(response){
     for(var i=0;i<window.urlsToLoad_array.length;i++){
-        if(window.urlsToLoad_array[i][1] == url){
+        if(window.urlsToLoad_array[i][1] == response.url){
             // Delete that URL from the array
             // because he just got loaded.
-            window.nextUrlList_array[window.urlsToLoad_array[i][0]][1] = response;
+            window.nextUrlList_array[window.urlsToLoad_array[i][0]][1] = response.responseText;
             window.urlsToLoad_array.splice(i,1);
         }
     }
