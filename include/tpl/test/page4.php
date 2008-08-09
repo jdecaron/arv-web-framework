@@ -1,6 +1,6 @@
-<div style="background-color:purple;width:70px;">
+<div style="background-color:purple;width:200px;">
 <br>
-Page 4
+<?echo microtime();echo '<br>';var_dump($_REQUEST);?>
 <br>
 <br>
 </div>

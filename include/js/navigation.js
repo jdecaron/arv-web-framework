@@ -6,27 +6,14 @@ function loadPage(url){
     window.url = url;
 
     // Start the loading indacator for
-    // the users.
+    // the user.
 
-    // Get the actual template structure.
-    if(window.location.hash){
-    }else{
-    }
-
-    window.actualUrlList_array = [];
     window.nextUrlList_array = [];
-    window.nextUrlTemplate_array = [];
-
-    page.index();
-
-    window.actualTemplate_xml = template.template0();
-    window.nextTemplate_xml = template.template1();
+    window.nextTemplate_xml = page.test1();
 
     // Retrieve all the URLs of a template and put them in
     // an associative array.
-    processTemplateStructure(window.actualTemplate_xml, 'actual');
     processTemplateStructure(window.nextTemplate_xml, 'next');
-    //alert(window.nextUrlList_array);
     loadBlocks();
 }
 
@@ -45,12 +32,10 @@ function loadBlocks(){
             // The array contains the URL to load and the index
             // position in the other array (nextUrlList_array).
             if(!isNaN(window.nextUrlList_array[i][1])){
-                mergedUrl = urlMerge(window.nextUrlTemplate_array[window.nextUrlList_array[i][1]], window.url);
-                // Update the URL (which is actuall
+                // Update the URL (which is actually
                 // an Int) in the next XML template.
+                mergedUrl = urlMerge(window.urlList_array[window.nextUrlList_array[i][1]], window.url);
                 window.nextTemplate_xml.getElementsByTagName(window.nextUrlList_array[i][0])[0].firstChild.firstChild.nodeValue = mergedUrl;
-                alert(window.nextTemplate_xml.getElementsByTagName(window.nextUrlList_array[i][0])[0].firstChild.firstChild.nodeValue);
-
                 window.nextUrlList_array[i][1] = mergedUrl;
             }
             window.urlsToLoad_array[window.urlsToLoad_array.length] = [i, window.nextUrlList_array[i][1]];
@@ -68,9 +53,10 @@ function returnStructure(template){
     // it's type.
     structure_xml = xmlDOM(template);
     if(structure_xml.firstChild.firstChild.nodeName == 'template'){
+        window.urlList_array = [];
         for(var i=0;i<structure_xml.firstChild.childNodes[1].childNodes.length;i++){
             // Put the URLs to load in an array.
-            window.nextUrlTemplate_array[i] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
+            window.urlList_array[i] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
         }
         // Return the structure.
         return eval('window.template.'+structure_xml.firstChild.firstChild.firstChild.nodeValue+'()');
@@ -171,7 +157,7 @@ function compare2Structures(actual_xml, next_xml){
                             // Replace the content of the already
                             // existing block if the value of the node
                             // is an URL.
-                            if(actual_xml.childNodes[i].childNodes[j].firstChild.nodeValue != next_xml.childNodes[i].childNodes[j].firstChild.nodeValue){
+                            if(document.getElementById(actual_xml.childNodes[i].nodeName).innerHTML != nextBlockContent){
                                 $(next_xml.childNodes[i].nodeName).innerHTML = nextBlockContent;
                             }
                         }else{
@@ -188,4 +174,6 @@ function compare2Structures(actual_xml, next_xml){
                 }
         }
     }
+    window.actualTemplate_xml = window.nextTemplate_xml;
+    processTemplateStructure(window.actualTemplate_xml, 'actual');
 }

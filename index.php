@@ -1,3 +1,5 @@
+<script>/*if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){alert(3);}*/</script>
+
 <!--AJAX navigation system.-->
 <script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
@@ -58,4 +60,8 @@ all the structure of the templates and of the pages.-->
 <?=buildStructure::renderStructureAsJSObject(array('structureName' => 'page'));?>
 
 <?=buildStructure::renderStructureAsJSObject(array('structureName' => 'template'));?>
+
+window.actualUrlList_array = [];
+window.actualTemplate_xml = page.index();
+processTemplateStructure(window.actualTemplate_xml, 'actual');
 </script>
