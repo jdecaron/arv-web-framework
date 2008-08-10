@@ -15,9 +15,11 @@ function loadPage(url){
     // an associative array.
     processTemplateStructure(window.nextTemplate_xml, 'next');
     loadBlocks();
+    window.notfinished = false;
 }
 
 function loadBlocks(){
+window.notfinished = true;
     window.urlsToLoad_array = [];
     for(var i=0;i<window.nextUrlList_array.length;i++){
         if(window.actualUrlList_array[window.nextUrlList_array[i][1]] != null && isNaN(window.nextUrlList_array[i][1])){
@@ -39,8 +41,14 @@ function loadBlocks(){
                 window.nextUrlList_array[i][1] = mergedUrl;
             }
             window.urlsToLoad_array[window.urlsToLoad_array.length] = [i, window.nextUrlList_array[i][1]];
-            new Ajax.Request( window.nextUrlList_array[i][1], { method: 'get', onComplete: loadUrlInArray });
         }
+    }
+    // Send the AJAX requests. This is done after
+    // getting the whole list to avoid a bug that
+    // appeared with the asynchronous queries and
+    // JS that run at the same time.
+    for(var i=0;i<window.nextUrlList_array.length;i++){
+        new Ajax.Request( window.nextUrlList_array[i][1], { method: 'get', onComplete: loadUrlInArray });
     }
 }
 
@@ -79,6 +87,11 @@ function loadUrlInArray(response){
     // time to change the content displayed to the user.
     if(window.urlsToLoad_array.length == 0){
         compare2Structures(window.actualTemplate_xml.firstChild.firstChild, window.nextTemplate_xml.firstChild.firstChild);
+
+        // Set the template and the url lis as actual
+        // since they have been loaded to the page.
+        window.actualTemplate_xml = window.nextTemplate_xml;
+        processTemplateStructure(window.actualTemplate_xml, 'actual');
     }
 }
 
@@ -157,7 +170,7 @@ function compare2Structures(actual_xml, next_xml){
                             // Replace the content of the already
                             // existing block if the value of the node
                             // is an URL.
-                            if(document.getElementById(actual_xml.childNodes[i].nodeName).innerHTML != nextBlockContent){
+                            if($(actual_xml.childNodes[i].nodeName).innerHTML != nextBlockContent){
                                 $(next_xml.childNodes[i].nodeName).innerHTML = nextBlockContent;
                             }
                         }else{
@@ -174,6 +187,4 @@ function compare2Structures(actual_xml, next_xml){
                 }
         }
     }
-    window.actualTemplate_xml = window.nextTemplate_xml;
-    processTemplateStructure(window.actualTemplate_xml, 'actual');
 }
