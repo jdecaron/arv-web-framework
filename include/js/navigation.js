@@ -2,8 +2,7 @@ function loadPage(url){
 // Write a function that return the next structure
 // with the URLs replaced in the load nodes.
 
-    window.templateIsLoading = true;
-    window.actualLocation = window.location.toString();
+    window.updateWindowLocation = true;
     window.url = url;
 
     // Start the loading indacator for
