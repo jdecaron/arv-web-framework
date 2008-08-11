@@ -4,13 +4,15 @@
 <script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
 
-<!--Prototype, hosted by Google.-->
+<!--Prototype.-->
 <script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
+<!--AJAX History Management.-->
 <script>
+window.templateIsLoading = false;
 window.actualLocation = window.location.toString();
 function verifyLocationChange(){
-    if(window.location != window.actualLocation){
+    if(window.location != window.actualLocation && !window.templateIsLoading){
         window.actualLocation = window.location.toString();
         loadPage(window.location.hash.toString().replace('#', ''));
     }

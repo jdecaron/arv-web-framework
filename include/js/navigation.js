@@ -2,6 +2,7 @@ function loadPage(url){
 // Write a function that return the next structure
 // with the URLs replaced in the load nodes.
 
+    window.templateIsLoading = true;
     window.actualLocation = window.location.toString();
     window.url = url;
 
@@ -99,6 +100,7 @@ function loadUrlInArray(response){
         // since they have been loaded to the page.
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
+        window.templateIsLoading = false;
     }
 }
 
