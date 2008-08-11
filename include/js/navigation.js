@@ -2,14 +2,20 @@ function loadPage(url){
 // Write a function that return the next structure
 // with the URLs replaced in the load nodes.
 
-    dhtmlHistory.add(url, 1);
+    window.actualLocation = window.location.toString();
     window.url = url;
 
     // Start the loading indacator for
     // the user.
 
-    window.nextUrlList_array = [];
-    window.nextTemplate_xml = page.test1();
+    urlSplit_array = url.split('&');
+    for(var i=0;i<urlSplit_array.length;i++){
+        if(urlSplit_array[i].split('=')[0] == 'page'){
+            window.pageName = urlSplit_array[i].split('=')[1];
+            window.nextUrlList_array = [];
+            window.nextTemplate_xml = eval('page.'+window.pageName+'()');
+        }
+    }
 
     // Retrieve all the URLs of a template and put them in
     // an associative array.
@@ -47,8 +53,8 @@ window.notfinished = true;
     // getting the whole list to avoid a bug that
     // appeared with the asynchronous queries and
     // JS that run at the same time.
-    for(var i=0;i<window.nextUrlList_array.length;i++){
-        new Ajax.Request( window.nextUrlList_array[i][1], { method: 'get', onComplete: loadUrlInArray });
+    for(var i=0;i<window.urlsToLoad_array.length;i++){
+        new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray });
     }
 }
 
@@ -79,6 +85,7 @@ function loadUrlInArray(response){
             // Delete that URL from the array
             // because he just got loaded.
             window.nextUrlList_array[window.urlsToLoad_array[i][0]][1] = response.responseText;
+            window.actualUrlList_array = [];
             window.urlsToLoad_array.splice(i,1);
         }
     }
@@ -91,7 +98,7 @@ function loadUrlInArray(response){
         // Set the template and the url lis as actual
         // since they have been loaded to the page.
         window.actualTemplate_xml = window.nextTemplate_xml;
-        processTemplateStructure(window.actualTemplate_xml, 'actual');
+        processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
     }
 }
 

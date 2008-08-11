@@ -201,7 +201,7 @@ class page{
         );
     }
 
-    function test1(){
+    function forum(){
         return array(
             'template' => 'template1',
             'content' => array(
