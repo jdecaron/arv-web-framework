@@ -2,7 +2,6 @@ function loadPage(url){
 // Write a function that return the next structure
 // with the URLs replaced in the load nodes.
 
-    window.updateWindowLocation = true;
     window.url = url;
 
     // Start the loading indacator for
@@ -53,6 +52,7 @@ window.notfinished = true;
     // getting the whole list to avoid a bug that
     // appeared with the asynchronous queries and
     // JS that run at the same time.
+    window.numberOfLoadedUrls = 0;
     for(var i=0;i<window.urlsToLoad_array.length;i++){
         new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray });
     }
@@ -82,21 +82,22 @@ function returnStructure(template){
 function loadUrlInArray(response){
     for(var i=0;i<window.urlsToLoad_array.length;i++){
         if(window.urlsToLoad_array[i][1] == response.url){
-            // Delete that URL from the array
-            // because he just got loaded.
+            // Put the HTML result in the array
+            // that holds the information for the
+            // next page.
             window.nextUrlList_array[window.urlsToLoad_array[i][0]][1] = response.responseText;
-            window.actualUrlList_array = [];
-            window.urlsToLoad_array.splice(i,1);
+            window.numberOfLoadedUrls++;
         }
     }
 
     // All the blocks has been loaded and it's now
     // time to change the content displayed to the user.
-    if(window.urlsToLoad_array.length == 0){
+    if(window.numberOfLoadedUrls == window.urlsToLoad_array.length){
         compare2Structures(window.actualTemplate_xml.firstChild.firstChild, window.nextTemplate_xml.firstChild.firstChild);
 
         // Set the template and the url lis as actual
         // since they have been loaded to the page.
+        window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
         window.templateIsLoading = false;

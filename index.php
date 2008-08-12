@@ -8,10 +8,9 @@
 <script type="text/javascript" src="include/js/rsh.js"></script>
 
 <!--Prototype, hosted by Google.-->
-<script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
+ <script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
 <script type="text/javascript">
-/*instantiate our history object*/
 window.dhtmlHistory.create({
     toJSON: function(o) {
         return Object.toJSON(o);
@@ -21,33 +20,18 @@ window.dhtmlHistory.create({
     }
 });
 
-window.updateWindowLocation = false;
-window.actualLocation = window.location.toString();
-var historyListener = function(){
-    // Executed every 1/10th of seconds.
-    if(window.updateWindowLocation){
-        window.actualLocation = window.location.toString();
-        window.updateWindowLocation = false;
-    }
-
-    if(window.location != window.actualLocation){
-        window.actualLocation = window.location.toString();
-        loadPage(window.location.hash.toString().replace('#', ''));
-    }
-}
-
-window.onload = function(){
-    dhtmlHistory.initialize();
-    dhtmlHistory.addListener(historyListener);
-};
-</script>
-
-<!--AJAX History Management.-->
-<script>
 // This bool is set because when the template is loading
 // the location hash is not immediately changed. So, the
 // verify location change interfer with the loading of
 // the page.
+var rshListener = function(){
+    loadPage(window.location.hash.toString().replace('#', ''));
+}
+
+window.onload = function(){
+    dhtmlHistory.initialize();
+    dhtmlHistory.addListener(rshListener);
+};
 </script>
 
 <?
