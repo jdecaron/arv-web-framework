@@ -8,11 +8,16 @@ function loadPage(url){
     // the user.
 
     urlSplit_array = url.split('&');
+    window.nextUrlList_array = [];
     for(var i=0;i<urlSplit_array.length;i++){
         if(urlSplit_array[i].split('=')[0] == 'page'){
+            // Load the page defined by the variable 'page'
+            // in the URL.
             window.pageName = urlSplit_array[i].split('=')[1];
-            window.nextUrlList_array = [];
             window.nextTemplate_xml = eval('page.'+window.pageName+'()');
+        }else{
+            // Load the default page.
+            page.index();
         }
     }
 
@@ -41,9 +46,7 @@ window.notfinished = true;
             if(!isNaN(window.nextUrlList_array[i][1])){
                 // Update the URL (which is actually
                 // an Int) in the next XML template.
-                mergedUrl = urlMerge(window.urlList_array[window.nextUrlList_array[i][1]], window.url);
-                window.nextTemplate_xml.getElementsByTagName(window.nextUrlList_array[i][0])[0].firstChild.firstChild.nodeValue = mergedUrl;
-                window.nextUrlList_array[i][1] = mergedUrl;
+                window.nextUrlList_array[i][1] = urlMerge(window.urlList_array[window.nextUrlList_array[i][1]], window.url);
             }
             window.urlsToLoad_array[window.urlsToLoad_array.length] = [i, window.nextUrlList_array[i][1]];
         }
@@ -64,7 +67,9 @@ function urlMerge(urlFromTemplate, requestedUrl){
 
 function returnStructure(template){
     // Return the structure depending of
-    // it's type.
+    // it's type. Used by the 2 classes
+    // that define the pages of the
+    // site : page, template.
     structure_xml = xmlDOM(template);
     if(structure_xml.firstChild.firstChild.nodeName == 'template'){
         window.urlList_array = [];
