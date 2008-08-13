@@ -9,16 +9,17 @@ function loadPage(url){
 
     urlSplit_array = url.split('&');
     window.nextUrlList_array = [];
+    window.pageName = '';
     for(var i=0;i<urlSplit_array.length;i++){
         if(urlSplit_array[i].split('=')[0] == 'page'){
             // Load the page defined by the variable 'page'
             // in the URL.
             window.pageName = urlSplit_array[i].split('=')[1];
             window.nextTemplate_xml = eval('page.'+window.pageName+'()');
-        }else{
-            // Load the default page.
-            page.index();
         }
+    }
+    if(window.pageName == ''){
+        window.nextTemplate_xml = page.index();
     }
 
     // Retrieve all the URLs of a template and put them in

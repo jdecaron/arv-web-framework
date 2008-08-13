@@ -1,10 +1,26 @@
 <?session_start();?>
 <script>
-// Redirect for refreshes and direct
-// landing with url changes.
+// Set the cookie variable that is used in
+// the PHP loading module.
+document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
 if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){
-    document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
-    window.location = '/find-spots.com/' + window.location.hash.toString();
+    // Redirect for refreshes and direct
+    // landing with urls that contain a hash.
+
+    if(document.cookie.match('relocation=.*;') == null){
+        // Unset the relocation cookie.
+        document.cookie.replace('relocation=.*;', '');
+
+        // Force the url redirection. Because a simple
+        // hash redirection doesn't force the page to reload.
+        if(window.location.toString().match('\\?')){
+            document.cookie = 'relocation=1';
+            window.location = '/find-spots.com/' + window.location.hash.toString();
+        }else{
+            document.cookie = 'relocation=1';
+            window.location = '/find-spots.com/?' + window.location.hash.toString();
+        }
+    }
 }
 </script>
 
@@ -13,7 +29,7 @@ if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){
 <script src="include/js/navigation.js"></script>
 
 <!--Prototype, hosted by Google.-->
- <script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
+<script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
 <!--AJAX history management.-->
 <script type="text/javascript" src="include/js/rsh.js"></script>
@@ -32,6 +48,7 @@ window.dhtmlHistory.create({
 // verify location change interfer with the loading of
 // the page.
 var rshListener = function(){
+    document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
     loadPage(window.location.hash.toString().replace('#', ''));
 }
 
@@ -48,16 +65,15 @@ include siteProperties::getClassPath() . 'structure.php';
 
 // Set the default page to load with the template 
 // system if the server variable is not set.
-if(!isset($_COOKIE['url'])){
-    $pageToLoad = 'index';
-}else{
-    foreach(explode('&', $_COOKIE['url']) as $urlVariable){
-        if(eregi('^page=', $urlVariable)){
-            $pageToLoad = str_replace('page=', '', $urlVariable);
-        }
+$pageToLoad = '';
+foreach(explode('&', $_COOKIE['url']) as $urlVariable){
+    if(eregi('^page=', $urlVariable)){
+        $pageToLoad = str_replace('page=', '', $urlVariable);
     }
 }
-
+if($pageToLoad == ''){
+    $pageToLoad = 'index';
+}
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 

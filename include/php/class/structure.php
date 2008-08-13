@@ -186,35 +186,35 @@ class block{
 // used in the main templates.
 
     function blogs(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/blogs.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/blogs.php';
     }
 
     function news(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page2.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page2.php';
     }
 
     function rails(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page1.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page1.php';
     }
 
     function page3(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page3.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page3.php';
     }
 
     function page4(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page5(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page5.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page5.php';
     }
 
     function page7(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page8(){
-        return 'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 }
 
@@ -227,7 +227,7 @@ class page{
         return array(
             'template' => 'template0',
             'content' => array(
-                            'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php'
+                            'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
                         )
         );
     }
@@ -236,7 +236,7 @@ class page{
         return array(
             'template' => 'template1',
             'content' => array(
-                            'http://192.168.1.101/find-spots.com/include/tpl/test/page4.php'
+                            'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
                         )
         );
     }
