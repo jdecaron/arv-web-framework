@@ -1,15 +1,22 @@
-<script>/*if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){alert(3);}*/</script>
+<?session_start();?>
+<script>
+// Redirect for refreshes and direct
+// landing with url changes.
+if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){
+    document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
+    window.location = '/find-spots.com/' + window.location.hash.toString();
+}
+</script>
 
 <!--AJAX navigation system.-->
 <script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
 
-<!--AJAX history management.-->
-<script type="text/javascript" src="include/js/rsh.js"></script>
-
 <!--Prototype, hosted by Google.-->
  <script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
+<!--AJAX history management.-->
+<script type="text/javascript" src="include/js/rsh.js"></script>
 <script type="text/javascript">
 window.dhtmlHistory.create({
     toJSON: function(o) {
@@ -39,7 +46,20 @@ include 'include/php/class/site.php';
 include 'include/php/class/user.php';
 include siteProperties::getClassPath() . 'structure.php';
 
-$page_template =  buildStructure::html(array('page' => 'index'));
+// Set the default page to load with the template 
+// system if the server variable is not set.
+if(!isset($_COOKIE['url'])){
+    $pageToLoad = 'index';
+}else{
+    foreach(explode('&', $_COOKIE['url']) as $urlVariable){
+        if(eregi('^page=', $urlVariable)){
+            $pageToLoad = str_replace('page=', '', $urlVariable);
+        }
+    }
+}
+
+
+$page_template =  buildStructure::html(array('page' => $pageToLoad));
 
 echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=1'))) . '>asdasd</a>';
 echo ' ';
@@ -56,6 +76,6 @@ all the structure of the templates and of the pages.-->
 <?=buildStructure::renderStructureAsJSObject(array('structureName' => 'template'));?>
 
 window.actualUrlList_array = [];
-window.actualTemplate_xml = page.index();
+window.actualTemplate_xml = page.<?=$pageToLoad?>();
 processTemplateStructure(window.actualTemplate_xml, 'actual');
 </script>

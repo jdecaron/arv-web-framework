@@ -3,5 +3,5 @@
 url=$1
 filePath=$2
 
-wget $url -O $filePath'.tmp'
+wget --timeout=1 -t1 $url -O $filePath'.tmp'
 mv $filePath'.tmp' $filePath

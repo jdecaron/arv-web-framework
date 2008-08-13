@@ -13,7 +13,7 @@ class buildStructure{
                 $arguments_array['blocksToLoad'] = $blockToLoad_array['blocksToLoad'];
             }
 
-            // Append the new block to the other
+            // Append the new block to the others
             // already retrieved blocks.
             if(array_key_exists('load', $cell)){
                 $arguments_array['blocksToLoad'] = array_merge($arguments_array['blocksToLoad'], array($index => $cell['load']));
@@ -21,10 +21,6 @@ class buildStructure{
         }
 
         return $arguments_array;
-    }
-
-    function javaScript($arguments_array){
-        //var_dump(siteProperties::getRootPath());
     }
 
     function html($arguments_array){
@@ -40,13 +36,46 @@ class buildStructure{
         // to be loaded.
         foreach($blocksToLoad_array['blocksToLoad'] as $index => $cell){
             if(is_numeric($cell)){
-                $blocksToLoad_array['blocksToLoad'][$index] = $page_array['content'][$cell];
+                $blocksToLoad_array['blocksToLoad'][$index] = buildStructure::urlMerge(array('pagePath' => $page_array['content'][$cell]));
             }
         }
 
         $loadedBlocks_array = buildStructure::renderBlocks(array('blocksToLoad' => $blocksToLoad_array['blocksToLoad']));
 
         return buildStructure::renderHtmlStructure(array('loadedBlocks' => $loadedBlocks_array['loadedBlocks'], 'structure' => $blocksToLoad_array['structure']));
+    }
+
+    function urlMerge($arguments_array){
+        $urlArguments_array = explode('&', $_COOKIE['url']);
+        foreach($urlArguments_array as $index => $urlArgument){
+                if(eregi('phpsessionid', $urlArgument)){
+                    // Check if the URL argument list
+                    // contains the 'sessionid' variable. If
+                    // true : set a flag variable to update the 
+                    // argument later.
+                    $urlContainsSessionId = true;
+                }
+        }
+        
+        if(session_id()){
+            // Set the session ID in the argument lists so 
+            // it later appears in every dynamic block loading
+            // via HTTP requests.
+            if(!$urlContainsSessionId){
+                $urlArguments_array[] = 'PHPSESSIONID=' . session_id();
+            }
+        }
+
+        if(count($urlArguments_array)){
+            // Format the argument list for the HTTP request
+            // if there are arguments in the array.
+            $urlArguments = implode('&', $urlArguments_array);
+            if(ereg('^&.*', $urlArguments)){
+                $urlArguments = substr($urlArguments, 1);
+            }
+            $urlArguments = '?' . $urlArguments;
+        }
+        return $arguments_array['pagePath'] . $urlArguments;
     }
 
     function renderHtmlStructure($arguments_array){
@@ -89,13 +118,14 @@ class buildStructure{
         foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
             $blockToRender = escapeshellcmd($blockToRender);
 
-            shell_exec(siteProperties::getScriptPath() . 'wgetd ' . $urlToRender . ' ' . self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix . '>/dev/null 2>&1 &');
+            shell_exec(siteProperties::getScriptPath() . 'wgetd "' . $urlToRender . '" "' . self::$temporaryFolder . self::$renderFilePrefix . '_' . $fileSuffix . '" > /dev/null 2>&1 &');
         }
 
         // Wait until all the files are
         // completely loaded.
         $renderCompleted = false;
-        while(!$renderCompleted){
+$stopthat = 0;
+        while(!$renderCompleted && $stopthat < 20){
 
             $renderCompleted = true;
             foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
@@ -104,6 +134,7 @@ class buildStructure{
                 }
             }
 
+$stopthat++;
             usleep(20000);
         }
 
