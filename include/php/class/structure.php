@@ -1,5 +1,4 @@
 <?
-
 class buildStructure{
 
     function getBlocksToLoad($arguments_array){
@@ -216,6 +215,21 @@ class block{
     function page8(){
         return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
+    function footer(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/footer.php';
+    }
+    function forum(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/forum.php';
+    }
+    function headerBlock(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/header.php';
+    }
+    function left(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/left.php';
+    }
+    function quickLinks(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/quicklinks.php';
+    }
 }
 
 class page{
@@ -223,16 +237,18 @@ class page{
 // and the place of that content in the
 // structure of the template system.
 
-    function index(){
+    function forum(){
         return array(
             'template' => 'template0',
             'content' => array(
-                            'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
+                            440 => block::left(),
+                            330 => block::forum(),
+                            545 => block::headerBlock()
                         )
         );
     }
 
-    function forum(){
+    function index(){
         return array(
             'template' => 'template1',
             'content' => array(
@@ -248,24 +264,34 @@ class template{
         return array(
         'childs' => array(
                     'a0' => array(
+                            'load' => 545,
+                            'style' => 'clear:both'
+                            ),
+                    'a1' => array(
                             'childs' => array(
-                                        'a0_b0' => array(
-                                                    'load' => 0,
-                                                    'style' => 'float:left;'
+                                        'a1_b0' => array(
+                                                    'load' => 440,
+                                                    'style' => 'float:left;width:140px;'
                                                    ),
-                                        'a0_b1' => array(
-                                                    'load' => block::news(),
-                                                    'style' => 'float:left;'
+                                        'a1_b1' => array(
+                                                    'load' => 330,
+                                                    'style' => 'float:left;width:690px;'
                                                    ),
-                                        'a0_b2' => array(
-                                                    'load' => block::page5(),
-                                                    'style' => 'float:left;'
+                                        'a1_b2' => array(
+                                                    'childs' => array(
+                                                        'a1_b2_c0' => array(
+                                                                        'load' => block::quickLinks(),
+                                                                        'style' => 'width:170px;'
+                                                                    )
+                                                    ),
+                                                    'style' => 'float:left;width:170px;'
                                                    )
                                         ),
                             'style' => 'clear:both',
                             ),
-                    'a1' => array(
-                            'load' => block::blogs()
+                    'a2' => array(
+                            'load' => block::footer(),
+                            'style' => 'clear:both'
                             )
         ),
         'title' => 'Find-Spots.com'
@@ -292,7 +318,7 @@ class template{
                             'childs' => array(
                                             'a1_b0' => array(
                                                 'load' => 0,
-                                                'style' => 'float:left;'
+                                                'style' => 'float:left;width:200px;'
                                             ),
                                             'a1_b1' => array(
                                                 'childs' => array(
@@ -312,5 +338,4 @@ class template{
     }
 
 }
-
 ?>

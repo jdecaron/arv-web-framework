@@ -26,7 +26,6 @@ function loadPage(url){
     // an associative array.
     processTemplateStructure(window.nextTemplate_xml, 'next');
     loadBlocks();
-    window.notfinished = false;
 }
 
 function loadBlocks(){
@@ -76,7 +75,7 @@ function returnStructure(template){
         window.urlList_array = [];
         for(var i=0;i<structure_xml.firstChild.childNodes[1].childNodes.length;i++){
             // Put the URLs to load in an array.
-            window.urlList_array[i] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
+            window.urlList_array[structure_xml.firstChild.childNodes[1].childNodes[i].nodeName.replace('_', '')] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
         }
         // Return the structure.
         return eval('window.template.'+structure_xml.firstChild.firstChild.firstChild.nodeValue+'()');
@@ -101,12 +100,12 @@ function loadUrlInArray(response){
     if(window.numberOfLoadedUrls == window.urlsToLoad_array.length){
         compare2Structures(window.actualTemplate_xml.firstChild.firstChild, window.nextTemplate_xml.firstChild.firstChild);
 
-        // Set the template and the url lis as actual
+        // Set the template and the url list as actual
         // since they have been loaded to the page.
         window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
-        window.templateIsLoading = false;
+        document.title = new Date() - window.timer.getTime();
     }
 }
 
@@ -191,7 +190,15 @@ function compare2Structures(actual_xml, next_xml){
                         }else{
                             // Build the block and insert the content
                             // at the end of the parent.
-                            new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '">' + nextBlockContent + '</div>');
+                            if(next_xml.childNodes[i].nodeName.split('_').length > 1){
+                                // Split the div name and remove the last
+                                // suffix of it so the content is inserted
+                                // at the bottom of his parent.
+                                divToInsertBottom = next_xml.childNodes[i].nodeName.split('_').slice(0, next_xml.childNodes[i].nodeName.split('_').length-1).join('_');
+                            }else{
+                                divToInsertBottom = 'page';
+                            }
+                            new Insertion.Bottom(divToInsertBottom, '<div id="' + next_xml.childNodes[i].nodeName + '">' + nextBlockContent + '</div>');
                         }
                     }
                 }

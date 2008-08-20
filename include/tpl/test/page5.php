@@ -1,6 +1,9 @@
-<div style="background-image:url(include/tpl/test/garden_hires.jpg);width:50px;">
+<div style="background-color:orange;width:250px;">
 <br>
-Page 5
+Block 5
+<br>
+<br>
+<br>
 <br>
 <br>
 </div>

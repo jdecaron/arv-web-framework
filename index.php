@@ -1,28 +1,28 @@
-<?session_start();?>
-<script>
-// Set the cookie variable that is used in
-// the PHP loading module.
-document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
-if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){
-    // Redirect for refreshes and direct
-    // landing with urls that contain a hash.
+<?
+session_start();
 
-    if(document.cookie.match('relocation=.*;') == null){
-        // Unset the relocation cookie.
-        document.cookie.replace('relocation=.*;', '');
+if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 
-        // Force the url redirection. Because a simple
-        // hash redirection doesn't force the page to reload.
-        if(window.location.toString().match('\\?')){
-            document.cookie = 'relocation=1';
-            window.location = '/find-spots.com/' + window.location.hash.toString();
-        }else{
-            document.cookie = 'relocation=1';
-            window.location = '/find-spots.com/?' + window.location.hash.toString();
+    $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
+        preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']) : '';
+
+    $file_last_modified = filemtime($_SERVER['SCRIPT_FILENAME']);
+    $gmdate_modified = gmdate('D, d M Y H:i:s', $file_last_modified) . ' GMT';
+
+    if ($if_modified_since == $gmdate_modified) {
+        if (php_sapi_name() == 'cgi') {
+            header('Status: 304 Not Modified');
+        } else {
+            header('HTTP/1.1 304 Not Modified');
         }
+        exit();
     }
+
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + 86400) . ' GMT');
+    header('Last-Modified: ' . $gmdate_modified);
+    header('Cache-control: max-age=' . 86400);
 }
-</script>
+?>
 
 <!--AJAX navigation system.-->
 <script src="include/js/ajax.js"></script>
@@ -32,30 +32,15 @@ if(window.location.hash && typeof(window.actualTemplate_xml)=='undefined'){
 <script type="text/javascript" src="include/js/prototype-1.6.0.2.js"></script>
 
 <!--AJAX history management.-->
-<script type="text/javascript" src="include/js/rsh.js"></script>
+<script type="text/javascript" src="include/js/swfaddress.js"></script>
 <script type="text/javascript">
-window.dhtmlHistory.create({
-    toJSON: function(o) {
-        return Object.toJSON(o);
-    }
-    , fromJSON: function(s){
-        return s.evalJSON();
-    }
-});
-
-// This bool is set because when the template is loading
-// the location hash is not immediately changed. So, the
-// verify location change interfer with the loading of
-// the page.
-var rshListener = function(){
-    document.cookie = 'url=' + window.location.hash.toString().replace('#', '');
-    loadPage(window.location.hash.toString().replace('#', ''));
+function historyChange()
+{
+    //loadPage(window.location.hash.toString().replace('#', ''));
+    SWFAddress.setTitle('11');
 }
 
-window.onload = function(){
-    dhtmlHistory.initialize();
-    dhtmlHistory.addListener(rshListener);
-};
+SWFAddress.addEventListener(SWFAddressEvent.CHANGE, historyChange);
 </script>
 
 <?
@@ -72,7 +57,11 @@ foreach(explode('&', $_COOKIE['url']) as $urlVariable){
     }
 }
 if($pageToLoad == ''){
-    $pageToLoad = 'index';
+    if($_REQUEST['page'] != ''){
+        $pageToLoad = $_REQUEST['page'];
+    }else{
+        $pageToLoad = 'index';
+    }
 }
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
@@ -81,7 +70,7 @@ echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('styl
 echo ' ';
 echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=forum&sauce=2'))) . '>asdasd</a>';
 
-echo $page_template;
+echo '<div id="page" style="width:1000px;">' . $page_template . '</div>';
 ?>
 
 <!--Include the JavaScript file that contains

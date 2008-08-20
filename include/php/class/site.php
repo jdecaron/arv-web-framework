@@ -29,12 +29,13 @@ class siteTools{
             // Set the URL accordingly to the
             // type of navigation the user has
             // chosen.
+            $arguments_array['attributes']['rel'] = $arguments_array['attributes']['href'];
+            $arguments_array['attributes']['href'] = '?' . $arguments_array['attributes']['href'];
             if(userSettings::getNavigationType() == 'ajax'){
                 // Add the AJAX page navigation function
                 // to the "onclick" event.
-                $arguments_array['attributes']['href'] = '#' . $arguments_array['attributes']['href'];
+                $arguments_array['attributes']['onclick'] .= 'window.timer = new Date();SWFAddress.setValue(this.rel);return false;';
             }else{
-                $arguments_array['attributes']['href'] = '?' . $arguments_array['attributes']['href'];
             }
         }
 
