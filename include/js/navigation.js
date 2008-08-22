@@ -57,7 +57,7 @@ window.notfinished = true;
     // JS that run at the same time.
     window.numberOfLoadedUrls = 0;
     for(var i=0;i<window.urlsToLoad_array.length;i++){
-        new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray });
+        new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray, requestHeaders: ['If-Modified-Since', 'Thu, 1 Jan 1970 00:00:00 GMT']});
     }
 }
 

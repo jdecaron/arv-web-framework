@@ -25,14 +25,24 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 ?>
 
 <script>
+// Extract the cookie value for the variable "hash".
 lastRequestedUrl = document.cookie.toString();
 lastRequestedUrl = lastRequestedUrl.substr(lastRequestedUrl.search('hash='), lastRequestedUrl.length);
 lastRequestedUrl = lastRequestedUrl.substr(0, lastRequestedUrl.search(';')).replace('hash=', '');
 actualUrl = window.location.hash.toString();
 actualUrl = actualUrl.substr(2, actualUrl.length);
+// Compare the old "hash" from the cookie with 
+// the new one in the actual window location bar.
 if(actualUrl != lastRequestedUrl){
+    // Set the cookie variable with the new  value
+    // and reload the page so the cookie value is set
+    // for the PHP script later in the page.
     document.cookie = 'hash=' + actualUrl;
     window.location.reload(true);
+}else{
+    // Set a variable to force the loading of IE
+    // at the bottom of the page.
+    //window.reloadIE = true;
 }
 </script>
 
@@ -78,9 +88,11 @@ if($pageToLoad == ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=1'))) . '>asdasd</a>';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=a'))) . '>color blocks a</a>';
 echo ' ';
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=forum&sauce=2'))) . '>asdasd</a>';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=b'))) . '>color blocks b</a>';
+echo '&nbsp;&nbsp;&nbsp;&nbsp; ';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=forum&sauce=2'))) . '>ns layout</a>';
 
 echo '<div id="page" style="width:1000px;">' . $page_template . '</div>';
 ?>
@@ -95,4 +107,10 @@ all the structure of the templates and of the pages.-->
 window.actualUrlList_array = [];
 window.actualTemplate_xml = page.<?=$pageToLoad?>();
 processTemplateStructure(window.actualTemplate_xml, 'actual');
+
+// Reload the page for IE to counter the "304 Not Modified"
+// effect we use in the hack to avoid loosing the history stack.
+if(window.reloadIE == true){
+    loadPage(actualUrl);
+}
 </script>
