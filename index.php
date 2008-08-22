@@ -24,6 +24,18 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 }
 ?>
 
+<script>
+lastRequestedUrl = document.cookie.toString();
+lastRequestedUrl = lastRequestedUrl.substr(lastRequestedUrl.search('hash='), lastRequestedUrl.length);
+lastRequestedUrl = lastRequestedUrl.substr(0, lastRequestedUrl.search(';')).replace('hash=', '');
+actualUrl = window.location.hash.toString();
+actualUrl = actualUrl.substr(2, actualUrl.length);
+if(actualUrl != lastRequestedUrl){
+    document.cookie = 'hash=' + actualUrl;
+    window.location.reload(true);
+}
+</script>
+
 <!--AJAX navigation system.-->
 <script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
@@ -34,10 +46,10 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 <!--AJAX history management.-->
 <script type="text/javascript" src="include/js/swfaddress.js"></script>
 <script type="text/javascript">
-function historyChange()
+function historyChange(historyStatus)
 {
-    //loadPage(window.location.hash.toString().replace('#', ''));
-    SWFAddress.setTitle('11');
+    loadPage(historyStatus.value.toString().replace('/', ''));
+    //SWFAddress.setTitle('11');
 }
 
 SWFAddress.addEventListener(SWFAddressEvent.CHANGE, historyChange);
@@ -51,9 +63,9 @@ include siteProperties::getClassPath() . 'structure.php';
 // Set the default page to load with the template 
 // system if the server variable is not set.
 $pageToLoad = '';
-foreach(explode('&', $_COOKIE['url']) as $urlVariable){
-    if(eregi('^page=', $urlVariable)){
-        $pageToLoad = str_replace('page=', '', $urlVariable);
+foreach(explode('&', $_COOKIE['hash']) as $hashVariable){
+    if(eregi('^page=', $hashVariable)){
+        $pageToLoad = str_replace('page=', '', $hashVariable);
     }
 }
 if($pageToLoad == ''){

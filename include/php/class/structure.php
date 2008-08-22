@@ -275,7 +275,7 @@ class template{
                                                    ),
                                         'a1_b1' => array(
                                                     'load' => 330,
-                                                    'style' => 'float:left;width:690px;'
+                                                    'style' => 'float:left;'
                                                    ),
                                         'a1_b2' => array(
                                                     'childs' => array(
