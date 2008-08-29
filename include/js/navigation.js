@@ -105,6 +105,8 @@ function loadUrlInArray(response){
         window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
+        window.loadWithHistoryListener = false;
+        SWFAddress.setValue(window.url);
         document.cookie = 'hash=' + window.url;
         document.title = new Date() - window.timer.getTime();
     }

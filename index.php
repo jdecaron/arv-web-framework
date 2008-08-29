@@ -25,24 +25,30 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 ?>
 
 <script>
-// Extract the cookie value for the variable "hash".
-lastRequestedUrl = document.cookie.toString();
-lastRequestedUrl = lastRequestedUrl.substr(lastRequestedUrl.search('hash='), lastRequestedUrl.length);
-lastRequestedUrl = lastRequestedUrl.substr(0, lastRequestedUrl.search(';')).replace('hash=', '');
-actualUrl = window.location.hash.toString();
-actualUrl = actualUrl.substr(2, actualUrl.length);
-// Compare the old "hash" from the cookie with 
-// the new one in the actual window location bar.
-if(actualUrl != lastRequestedUrl){
-    // Set the cookie variable with the new  value
-    // and reload the page so the cookie value is set
-    // for the PHP script later in the page.
-    document.cookie = 'hash=' + actualUrl;
-    window.location.reload(true);
-}else{
-    // Set a variable to force the loading of IE
-    // at the bottom of the page.
-    //window.reloadIE = true;
+window.doNotLoadWithListener = true;
+if(window.location.hash){
+alert(1);
+    document.cookie = 'loadFromCookieUrl=1';
+
+    // Extract the cookie value for the variable "hash".
+    lastRequestedUrl = document.cookie.toString();
+    lastRequestedUrl = lastRequestedUrl.substr(lastRequestedUrl.search('hash='), lastRequestedUrl.length);
+    lastRequestedUrl = lastRequestedUrl.substr(0, lastRequestedUrl.search(';')).replace('hash=', '');
+    actualUrl = window.location.hash.toString();
+    actualUrl = actualUrl.substr(2, actualUrl.length);
+    // Compare the old "hash" from the cookie with 
+    // the new one in the actual window location bar.
+    if(actualUrl != lastRequestedUrl){
+        // Set the cookie variable with the new  value
+        // and reload the page so the cookie value is set
+        // for the PHP script later in the page.
+        document.cookie = 'hash=' + actualUrl;
+        window.location.reload(true);
+    }else{
+        // Set a variable to force the loading for IE
+        // at the bottom of the page.
+        window.loadAtTheEndForIe = true;
+    }
 }
 </script>
 
@@ -58,8 +64,12 @@ if(actualUrl != lastRequestedUrl){
 <script type="text/javascript">
 function historyChange(historyStatus)
 {
-    loadPage(historyStatus.value.toString().replace('/', ''));
-    //SWFAddress.setTitle('11');
+    if(window.doNotLoadWithListener != true){
+        loadPage(historyStatus.value.toString().replace('/', ''));
+        //SWFAddress.setTitle('11');
+    }else{
+        window.doNotLoadWithListener = false; 
+    }
 }
 
 SWFAddress.addEventListener(SWFAddressEvent.CHANGE, historyChange);
@@ -70,20 +80,17 @@ include 'include/php/class/site.php';
 include 'include/php/class/user.php';
 include siteProperties::getClassPath() . 'structure.php';
 
-// Set the default page to load with the template 
-// system if the server variable is not set.
-$pageToLoad = '';
-foreach(explode('&', $_COOKIE['hash']) as $hashVariable){
-    if(eregi('^page=', $hashVariable)){
-        $pageToLoad = str_replace('page=', '', $hashVariable);
+$pageToLoad = 'index';
+var_dump($_COOKIE);
+if($_COOKIE['loadFromCookieUrl'] == 1){
+    foreach(explode('&', $_COOKIE['hash']) as $hashVariable){
+        if(eregi('^page=', $hashVariable)){
+            $pageToLoad = str_replace('page=', '', $hashVariable);
+        }
     }
-}
-if($pageToLoad == ''){
-    if($_REQUEST['page'] != ''){
-        $pageToLoad = $_REQUEST['page'];
-    }else{
-        $pageToLoad = 'index';
-    }
+}else if(isset($_REQUEST['page'])){
+    $_COOKIE['hash'] = $_SERVER['QUERY_STRING'];
+    $pageToLoad = $_REQUEST['page'];
 }
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
@@ -110,7 +117,9 @@ processTemplateStructure(window.actualTemplate_xml, 'actual');
 
 // Reload the page for IE to counter the "304 Not Modified"
 // effect we use in the hack to avoid loosing the history stack.
-if(window.reloadIE == true){
-    loadPage(actualUrl);
+if(window.loadAtTheEndForIe == true && Prototype.Browser.IE){
+    //loadPage(actualUrl);
 }
+
+document.cookie = 'loadFromCookieUrl=0';
 </script>

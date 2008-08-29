@@ -45,7 +45,7 @@ class buildStructure{
     }
 
     function urlMerge($arguments_array){
-        $urlArguments_array = explode('&', $_COOKIE['url']);
+        $urlArguments_array = explode('&', $_COOKIE['hash']);
         foreach($urlArguments_array as $index => $urlArgument){
                 if(eregi('phpsessionid', $urlArgument)){
                     // Check if the URL argument list
@@ -318,6 +318,7 @@ class template{
                             'childs' => array(
                                             'a1_b0' => array(
                                                 'load' => 0,
+                                                'dynamic' => 1,
                                                 'style' => 'float:left;width:200px;'
                                             ),
                                             'a1_b1' => array(
