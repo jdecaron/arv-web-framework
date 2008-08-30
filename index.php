@@ -10,6 +10,7 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
     $gmdate_modified = gmdate('D, d M Y H:i:s', $file_last_modified) . ' GMT';
 
     if ($if_modified_since == $gmdate_modified) {
+        setcookie('ieGotRefreshed', '1');
         if (php_sapi_name() == 'cgi') {
             header('Status: 304 Not Modified');
         } else {
@@ -25,30 +26,15 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 ?>
 
 <script>
-window.doNotLoadWithListener = true;
-if(window.location.hash){
-alert(1);
-    document.cookie = 'loadFromCookieUrl=1';
+window.onbeforeunload = function(){
+    document.cookie = 'hash=' + window.location.hash.toString().substr(2, window.location.hash.toString().length);
+}
 
-    // Extract the cookie value for the variable "hash".
-    lastRequestedUrl = document.cookie.toString();
-    lastRequestedUrl = lastRequestedUrl.substr(lastRequestedUrl.search('hash='), lastRequestedUrl.length);
-    lastRequestedUrl = lastRequestedUrl.substr(0, lastRequestedUrl.search(';')).replace('hash=', '');
-    actualUrl = window.location.hash.toString();
-    actualUrl = actualUrl.substr(2, actualUrl.length);
-    // Compare the old "hash" from the cookie with 
-    // the new one in the actual window location bar.
-    if(actualUrl != lastRequestedUrl){
-        // Set the cookie variable with the new  value
-        // and reload the page so the cookie value is set
-        // for the PHP script later in the page.
-        document.cookie = 'hash=' + actualUrl;
-        window.location.reload(true);
-    }else{
-        // Set a variable to force the loading for IE
-        // at the bottom of the page.
-        window.loadAtTheEndForIe = true;
-    }
+if(document.cookie.toString().search('hash=*' + window.location.hash.toString().substr(2, window.location.hash.toString().length) + ';') == -1){
+    // Reload the page to make the cookie variable visible
+    // from PHP. And the cookie value for the hash is updated
+    // during the body "onunload" state.
+    window.location.reload(true);
 }
 </script>
 
@@ -62,19 +48,17 @@ alert(1);
 <!--AJAX history management.-->
 <script type="text/javascript" src="include/js/swfaddress.js"></script>
 <script type="text/javascript">
+window.doNotLoadWithListener = true;
 function historyChange(historyStatus)
 {
     if(window.doNotLoadWithListener != true){
         loadPage(historyStatus.value.toString().replace('/', ''));
-        //SWFAddress.setTitle('11');
     }else{
         window.doNotLoadWithListener = false; 
     }
 }
-
 SWFAddress.addEventListener(SWFAddressEvent.CHANGE, historyChange);
 </script>
-
 <?
 include 'include/php/class/site.php';
 include 'include/php/class/user.php';
@@ -82,7 +66,7 @@ include siteProperties::getClassPath() . 'structure.php';
 
 $pageToLoad = 'index';
 var_dump($_COOKIE);
-if($_COOKIE['loadFromCookieUrl'] == 1){
+if($_COOKIE['hash'] != ''){
     foreach(explode('&', $_COOKIE['hash']) as $hashVariable){
         if(eregi('^page=', $hashVariable)){
             $pageToLoad = str_replace('page=', '', $hashVariable);
@@ -103,7 +87,6 @@ echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('styl
 
 echo '<div id="page" style="width:1000px;">' . $page_template . '</div>';
 ?>
-
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
 <script>
@@ -115,11 +98,11 @@ window.actualUrlList_array = [];
 window.actualTemplate_xml = page.<?=$pageToLoad?>();
 processTemplateStructure(window.actualTemplate_xml, 'actual');
 
-// Reload the page for IE to counter the "304 Not Modified"
-// effect we use in the hack to avoid loosing the history stack.
-if(window.loadAtTheEndForIe == true && Prototype.Browser.IE){
-    //loadPage(actualUrl);
+// Reload the page for IE because the page is not refreshed from the server
+// since a header "304 Not Modified" has been sent. This hack is done to avoid 
+// loosing the history stack.
+if(document.cookie.toString().search('ieGotRefreshed=1') != -1){
+    document.cookie = 'ieGotRefreshed='; // Unset the cookie value to differienciate the refreses from direct access.
+    loadPage(window.location.hash.toString().substr(2, window.location.hash.toString().length));
 }
-
-document.cookie = 'loadFromCookieUrl=0';
 </script>
