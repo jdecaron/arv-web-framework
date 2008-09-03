@@ -22,8 +22,6 @@ function loadPage(url){
         window.nextTemplate_xml = page.index();
     }
 
-    window.benchmark = 'a:' + (new Date() - window.timer.getTime()) + '   ';
-
     // Retrieve all the URLs of a template and put them in
     // an associative array.
     processTemplateStructure(window.nextTemplate_xml, 'next');
@@ -92,8 +90,6 @@ function returnStructure(template){
 
 function loadUrlInArray(response){
 
-    window.benchmark = window.benchmark + 'b:' + (new Date() - window.timer.getTime()) + '   ';
-
     for(var i=0;i<window.urlsToLoad_array.length;i++){
         if(window.urlsToLoad_array[i][1] == response.url){
             // Put the HTML result in the array
@@ -115,8 +111,6 @@ function loadUrlInArray(response){
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
         SWFAddress.setValue(window.url);
-        window.benchmark = window.benchmark + 'd:' + (new Date() - window.timer.getTime()) + '   ';
-        document.title = window.benchmark;
     }
 }
 
@@ -138,8 +132,6 @@ function processTemplateStructure(childs_xml, action){
 }
 
 function compare2Structures(actual_xml, next_xml){
-    
-    window.benchmark = window.benchmark + 'c:' + (new Date() - window.timer.getTime()) + '   ';
     // Delete the HTML elements that are not in
     // the new template.
     if(Try.these(function() {return actual_xml.childNodes.length > next_xml.childNodes.length;})){

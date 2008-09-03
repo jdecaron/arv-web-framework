@@ -1,7 +1,7 @@
 <?
 session_start();
 
-if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') && isset($_COOKIE['hash'])) {
+if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
         preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']) : '';
