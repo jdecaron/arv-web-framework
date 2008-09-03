@@ -22,6 +22,8 @@ function loadPage(url){
         window.nextTemplate_xml = page.index();
     }
 
+    window.benchmark = 'a:' + (new Date() - window.timer.getTime()) + '   ';
+
     // Retrieve all the URLs of a template and put them in
     // an associative array.
     processTemplateStructure(window.nextTemplate_xml, 'next');
@@ -32,23 +34,23 @@ function loadBlocks(){
 window.notfinished = true;
     window.urlsToLoad_array = [];
     for(var i=0;i<window.nextUrlList_array.length;i++){
-        if(window.actualUrlList_array[window.nextUrlList_array[i][1]] != null && isNaN(window.nextUrlList_array[i][1])){
-            // Get the content of the blocks which
-            // are already loaded in the page and
-            // save it in the array which will be used
-            // to show in next page.
-            window.nextUrlList_array[i][1] = document.getElementById(window.actualUrlList_array[window.nextUrlList_array[i][1]]).innerHTML;
-        }else{
+        if(window.actualUrlList_array[window.nextUrlList_array[i][1]] == null || !isNaN(window.nextUrlList_array[i][1]) || window.nextUrlList_array[i][2] == '1'){
             // Set a list of URLs in an array. And start
             // the loading asynchronously with an AJAX request.
             // The array contains the URL to load and the index
             // position in the other array (nextUrlList_array).
             if(!isNaN(window.nextUrlList_array[i][1])){
-                // Update the URL (which is actually
-                // an Int) in the next XML template.
                 window.nextUrlList_array[i][1] = urlMerge(window.urlList_array[window.nextUrlList_array[i][1]], window.url);
+            }else if(window.nextUrlList_array[i][2] == '1'){
+                window.nextUrlList_array[i][1] = urlMerge(window.nextUrlList_array[i][1], window.url);
             }
             window.urlsToLoad_array[window.urlsToLoad_array.length] = [i, window.nextUrlList_array[i][1]];
+        }else{
+            // Get the content of the blocks which
+            // are already loaded in the page and
+            // save it in the array which will be used
+            // to show in next page.
+            window.nextUrlList_array[i][1] = document.getElementById(window.actualUrlList_array[window.nextUrlList_array[i][1]]).innerHTML;
         }
     }
     // Send the AJAX requests. This is done after
@@ -56,8 +58,12 @@ window.notfinished = true;
     // appeared with the asynchronous queries and
     // JS that run at the same time.
     window.numberOfLoadedUrls = 0;
+    urlIsLoaded = '';
     for(var i=0;i<window.urlsToLoad_array.length;i++){
-        new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray, requestHeaders: ['If-Modified-Since', 'Thu, 1 Jan 1970 00:00:00 GMT']});
+        if(urlIsLoaded.indexOf(window.urlsToLoad_array[i][1].toString() + ';') == -1){
+            new Ajax.Request(window.urlsToLoad_array[i][1], { method: 'get', onComplete: loadUrlInArray, requestHeaders: ['If-Modified-Since', 'Thu, 1 Jan 1970 00:00:00 GMT']});
+            urlIsLoaded = urlIsLoaded + window.urlsToLoad_array[i][1].toString() + ';';
+        }
     }
 }
 
@@ -85,6 +91,9 @@ function returnStructure(template){
 }
 
 function loadUrlInArray(response){
+
+    window.benchmark = window.benchmark + 'b:' + (new Date() - window.timer.getTime()) + '   ';
+
     for(var i=0;i<window.urlsToLoad_array.length;i++){
         if(window.urlsToLoad_array[i][1] == response.url){
             // Put the HTML result in the array
@@ -105,9 +114,9 @@ function loadUrlInArray(response){
         window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
-        window.loadWithHistoryListener = false;
         SWFAddress.setValue(window.url);
-        document.title = new Date() - window.timer.getTime();
+        window.benchmark = window.benchmark + 'd:' + (new Date() - window.timer.getTime()) + '   ';
+        document.title = window.benchmark;
     }
 }
 
@@ -122,13 +131,15 @@ function processTemplateStructure(childs_xml, action){
             if(childs_xml.childNodes[i].childNodes[j].nodeName == 'load' && action == 'actual'){
                 window.actualUrlList_array[childs_xml.childNodes[i].childNodes[j].firstChild.nodeValue] = childs_xml.childNodes[i].nodeName;
             }else if(childs_xml.childNodes[i].childNodes[j].nodeName == 'load' && action == 'next'){
-                window.nextUrlList_array[window.nextUrlList_array.length] = [childs_xml.childNodes[i].nodeName, childs_xml.childNodes[i].childNodes[j].firstChild.nodeValue];
+                window.nextUrlList_array[window.nextUrlList_array.length] = [childs_xml.childNodes[i].nodeName, childs_xml.childNodes[i].childNodes[j].firstChild.nodeValue, childs_xml.childNodes[i].childNodes[j+1].firstChild.nodeValue];
             }
         }
     }
 }
 
 function compare2Structures(actual_xml, next_xml){
+    
+    window.benchmark = window.benchmark + 'c:' + (new Date() - window.timer.getTime()) + '   ';
     // Delete the HTML elements that are not in
     // the new template.
     if(Try.these(function() {return actual_xml.childNodes.length > next_xml.childNodes.length;})){

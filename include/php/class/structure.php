@@ -30,12 +30,14 @@ class buildStructure{
         $template_array = template::$page_array['template']();
         $blocksToLoad_array = buildStructure::getBlocksToLoad(array('structure' => $template_array['childs'], 'blocksToLoad' => array()));
 
-        // Replace the empty dynamic
-        // blocks by the URL's of the pages
-        // to be loaded.
         foreach($blocksToLoad_array['blocksToLoad'] as $index => $cell){
             if(is_numeric($cell)){
+                // Replace the empty dynamic blocks
+                // with the URL of the pages to be loaded.
                 $blocksToLoad_array['blocksToLoad'][$index] = buildStructure::urlMerge(array('pagePath' => $page_array['content'][$cell]));
+            }else{
+                // Append the url variables to the page to load.
+                $blocksToLoad_array['blocksToLoad'][$index] = buildStructure::urlMerge(array('pagePath' => $cell));
             }
         }
 
@@ -265,22 +267,26 @@ class template{
         'childs' => array(
                     'a0' => array(
                             'load' => 545,
+                            'dynamic' => 1,
                             'style' => 'clear:both'
                             ),
                     'a1' => array(
                             'childs' => array(
                                         'a1_b0' => array(
                                                     'load' => 440,
+                                                    'dynamic' => 1,
                                                     'style' => 'float:left;width:140px;'
                                                    ),
                                         'a1_b1' => array(
                                                     'load' => 330,
+                                                    'dynamic' => 1,
                                                     'style' => 'float:left;'
                                                    ),
                                         'a1_b2' => array(
                                                     'childs' => array(
                                                         'a1_b2_c0' => array(
                                                                         'load' => block::quickLinks(),
+                                                                        'dynamic' => 0,
                                                                         'style' => 'width:170px;'
                                                                     )
                                                     ),
@@ -305,10 +311,12 @@ class template{
                             'childs' => array(
                                         'a0_b0' => array(
                                                     'load' => block::news(),
+                                                    'dynamic' => 0,
                                                     'style' => 'float:left;'
                                                    ),
                                         'a0_b1' => array(
                                                     'load' => block::page4(),
+                                                    'dynamic' => 1,
                                                     'style' => 'float:left;'
                                                    )
                                         ),
@@ -324,8 +332,9 @@ class template{
                                             'a1_b1' => array(
                                                 'childs' => array(
                                                                 'a1_b1_c0' => array(
-                                                                    'load' => block::page5(),
-                                                                    'style' => 'float:left;'
+                                                                                'load' => block::page5(),
+                                                                                'dynamic' => 0,
+                                                                                'style' => 'float:left;'
                                                                 )
                                                             ),
                                                 'style' => 'float:left;'

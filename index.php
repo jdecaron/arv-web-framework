@@ -1,7 +1,7 @@
 <?
 session_start();
 
-if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
+if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') && isset($_COOKIE['hash'])) {
 
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
         preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']) : '';
@@ -48,13 +48,14 @@ if(document.cookie.toString().search('hash=*' + window.location.hash.toString().
 <!--AJAX history management.-->
 <script type="text/javascript" src="include/js/swfaddress.js"></script>
 <script type="text/javascript">
-window.doNotLoadWithListener = true;
+window.loadWithHistoryListener = false;
 function historyChange(historyStatus)
 {
-    if(window.doNotLoadWithListener != true){
+window.loadWithHistoryListener
+    if(window.loadWithHistoryListener == true){
         loadPage(historyStatus.value.toString().replace('/', ''));
     }else{
-        window.doNotLoadWithListener = false; 
+        window.loadWithHistoryListener = true; 
     }
 }
 SWFAddress.addEventListener(SWFAddressEvent.CHANGE, historyChange);
