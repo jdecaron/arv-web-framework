@@ -190,10 +190,6 @@ class block{
         return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/blogs.php';
     }
 
-    function news(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page2.php';
-    }
-
     function rails(){
         return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page1.php';
     }
@@ -217,20 +213,29 @@ class block{
     function page8(){
         return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
-    function footer(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/footer.php';
-    }
-    function forum(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/forum.php';
-    }
+
+    // 
     function headerBlock(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/header.php';
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/header.php';
     }
-    function left(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/left.php';
+    function footer(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/footer.php';
     }
-    function quickLinks(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/quicklinks.php';
+    function navigationMenu(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/menu.php';
+    }
+
+    function blogList(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/blog_list.php';
+    }
+    function featuredArticles(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/featured_articles.php';
+    }
+    function news(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/news.php';
+    }
+    function rightBar(){
+        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/right_bar.php';
     }
 }
 
@@ -239,7 +244,7 @@ class page{
 // and the place of that content in the
 // structure of the template system.
 
-    function forum(){
+    /*function forum(){
         return array(
             'template' => 'template0',
             'content' => array(
@@ -248,9 +253,9 @@ class page{
                             545 => block::headerBlock()
                         )
         );
-    }
+    }*/
 
-    function index(){
+    function blocks(){
         return array(
             'template' => 'template1',
             'content' => array(
@@ -258,11 +263,70 @@ class page{
                         )
         );
     }
+
+    function index(){
+        return array(
+            'template' => 'index'
+        );
+    }
 }
 
 class template{
 
-    function template0(){
+    function index(){
+        return array(
+        'childs' => array(
+                    'a0' => array(
+                            'load' => block::headerBlock(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+                    'a1' => array(
+                            'load' => block::featuredArticles(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+                    'a2' => array(
+                            'load' => block::navigationMenu(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+                    'a3' => array(
+                            'childs' => array(
+                                        'a3_b0' => array(
+                                                        'childs' => array(
+                                                                    'a3_b0_c0' => array(
+                                                                                    'load' => block::news(),
+                                                                                    'dynamic' => 0,
+                                                                                    'style' => 'clear:both'
+                                                                                    ),
+                                                                    'a3_b0_c1' => array(
+                                                                                    'load' => block::blogList(),
+                                                                                    'dynamic' => 0,
+                                                                                    'style' => 'clear:both'
+                                                                                    ),
+                                                                    ),
+                                                        'style' => 'float:left'
+                                                    ),
+                                        'a3_b1' => array(
+                                                    'load' => block::rightBar(),
+                                                    'dynamic' => 0,
+                                                    'style' => 'float:left;',
+                                                    )
+                                        ),
+                            'style' => 'clear:both'
+                            ),
+                    'a4' => array(
+                            'load' => block::footer(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+        ),
+        'title' => 'Find-Spots.com'
+        );
+    }
+
+    /*function template0(){
         return array(
         'childs' => array(
                     'a0' => array(
@@ -302,7 +366,7 @@ class template{
         ),
         'title' => 'Find-Spots.com'
         );
-    }
+    }*/
 
     function template1(){
         return array(

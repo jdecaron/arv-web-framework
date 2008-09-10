@@ -29,7 +29,6 @@ function loadPage(url){
 }
 
 function loadBlocks(){
-window.notfinished = true;
     window.urlsToLoad_array = [];
     for(var i=0;i<window.nextUrlList_array.length;i++){
         if(window.actualUrlList_array[window.nextUrlList_array[i][1]] == null || !isNaN(window.nextUrlList_array[i][1]) || window.nextUrlList_array[i][2] == '1'){
@@ -75,11 +74,15 @@ function returnStructure(template){
     // that define the pages of the
     // site : page, template.
     structure_xml = xmlDOM(template);
+    window.urlList_array = [];
     if(structure_xml.firstChild.firstChild.nodeName == 'template'){
-        window.urlList_array = [];
-        for(var i=0;i<structure_xml.firstChild.childNodes[1].childNodes.length;i++){
-            // Put the URLs to load in an array.
-            window.urlList_array[structure_xml.firstChild.childNodes[1].childNodes[i].nodeName.replace('_', '')] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
+        // Fill an array with the dynamic urls to load if there
+        // are urls in the child node.
+        if(structure_xml.firstChild.childNodes.length > 1){
+            for(var i=0;i<structure_xml.firstChild.childNodes[1].childNodes.length;i++){
+                // Put the URLs to load in an array.
+                window.urlList_array[structure_xml.firstChild.childNodes[1].childNodes[i].nodeName.replace('_', '')] = structure_xml.firstChild.childNodes[1].childNodes[i].firstChild.nodeValue;
+            }
         }
         // Return the structure.
         return eval('window.template.'+structure_xml.firstChild.firstChild.firstChild.nodeValue+'()');
@@ -167,7 +170,11 @@ function compare2Structures(actual_xml, next_xml){
                 if(nextChildsStatus){
                     // Create the block if it doesn't exists.
                     if($(next_xml.childNodes[i].nodeName) == null){
-                        new Insertion.Bottom(blockToClean_array.join('_'), '<div id="' + next_xml.childNodes[i].nodeName + '"></div>');
+                        parentBlock = blockToClean_array.join('_');
+                        if(parentBlock == ''){
+                            parentBlock = 'page';
+                        }
+                        new Insertion.Bottom(parentBlock, '<div id="' + next_xml.childNodes[i].nodeName + '"></div>');
                     }
 
                     if(Try.these(function() {return actual_xml.childNodes[i].childNodes[j];}) == undefined){

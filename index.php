@@ -80,11 +80,11 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=a'))) . '>color blocks a</a>';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=blocks&sauce=a'))) . '>color blocks a</a>';
 echo ' ';
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=b'))) . '>color blocks b</a>';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=blocks&sauce=b'))) . '>color blocks b</a>';
 echo '&nbsp;&nbsp;&nbsp;&nbsp; ';
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=forum&sauce=2'))) . '>ns layout</a>';
+echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=2'))) . '>ns layout</a>';
 
 echo '<div id="page" style="width:1000px;">' . $page_template . '</div>';
 ?>
@@ -107,3 +107,6 @@ if(document.cookie.toString().search('ieGotRefreshed=1') != -1){
     loadPage(window.location.hash.toString().substr(2, window.location.hash.toString().length));
 }
 </script>
+
+
+<div id="sauce"></div>
