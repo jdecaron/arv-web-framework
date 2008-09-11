@@ -192,7 +192,9 @@ function compare2Structures(actual_xml, next_xml){
                             }
                         }
 
-                        if(Try.these(function() {return actual_xml.childNodes[i].childNodes[j].hasChildNodes() == true;}) != undefined){
+                        blockExists = true;
+                        try{actual_xml.childNodes[i].childNodes[j].hasChildNodes();}catch(e){blockExists = false;}
+                        if(blockExists){
                             // Replace the content of the already
                             // existing block if the value of the node
                             // is an URL.

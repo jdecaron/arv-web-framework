@@ -107,6 +107,3 @@ if(document.cookie.toString().search('ieGotRefreshed=1') != -1){
     loadPage(window.location.hash.toString().substr(2, window.location.hash.toString().length));
 }
 </script>
-
-
-<div id="sauce"></div>

@@ -34,7 +34,7 @@ class siteTools{
             if(userSettings::getNavigationType() == 'ajax'){
                 // Add the AJAX page navigation function
                 // to the "onclick" event.
-                $arguments_array['attributes']['onclick'] .= 'window.loadWithHistoryListener = false;loadPage(this.rel);return false;';
+                $arguments_array['attributes']['onclick'] .= 'window.timer = new Date();window.loadWithHistoryListener = false;loadPage(this.rel);return false;';
             }else{
             }
         }
