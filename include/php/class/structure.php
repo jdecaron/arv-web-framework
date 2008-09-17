@@ -269,6 +269,24 @@ class page{
             'template' => 'index'
         );
     }
+
+    function photos(){
+        return array(
+            'template' => 'content',
+            'content' => array(
+                            555 => 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/photos.php'
+                        )
+        );
+    }
+
+    function videos(){
+        return array(
+            'template' => 'content',
+            'content' => array(
+                            555 => 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/videos.php'
+                        )
+        );
+    }
 }
 
 class template{
@@ -310,13 +328,56 @@ class template{
                                                     ),
                                         'a3_b1' => array(
                                                     'load' => block::rightBar(),
-                                                    'dynamic' => 0,
+                                                    'dynamic' => 1,
                                                     'style' => 'float:left;',
                                                     )
                                         ),
                             'style' => 'clear:both'
                             ),
                     'a4' => array(
+                            'load' => block::footer(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+        ),
+        'title' => 'Find-Spots.com'
+        );
+    }
+
+    function content(){
+        return array(
+        'childs' => array(
+                    'a0' => array(
+                            'load' => block::headerBlock(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+                    'a1' => array(
+                            'load' => block::navigationMenu(),
+                            'dynamic' => 0,
+                            'style' => 'clear:both'
+                            ),
+                    'a2' => array(
+                            'childs' => array(
+                                        'a2_b0' => array(
+                                                        'childs' => array(
+                                                                    'a2_b0_c0' => array(
+                                                                                    'load' => 555,
+                                                                                    'dynamic' => 1,
+                                                                                    'style' => 'clear:both'
+                                                                                    )
+                                                                    ),
+                                                        'style' => 'float:left'
+                                                    ),
+                                        'a2_b1' => array(
+                                                    'load' => block::rightBar(),
+                                                    'dynamic' => 1,
+                                                    'style' => 'float:left;',
+                                                    )
+                                        ),
+                            'style' => 'clear:both;'
+                            ),
+                    'a3' => array(
                             'load' => block::footer(),
                             'dynamic' => 0,
                             'style' => 'clear:both'

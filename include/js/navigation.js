@@ -26,6 +26,7 @@ function loadPage(url){
     // an associative array.
     processTemplateStructure(window.nextTemplate_xml, 'next');
     loadBlocks();
+    SWFAddress.setValue(window.url);
 }
 
 function loadBlocks(){
@@ -74,8 +75,8 @@ function returnStructure(template){
     // that define the pages of the
     // site : page, template.
     structure_xml = xmlDOM(template);
-    window.urlList_array = [];
     if(structure_xml.firstChild.firstChild.nodeName == 'template'){
+        window.urlList_array = [];
         // Fill an array with the dynamic urls to load if there
         // are urls in the child node.
         if(structure_xml.firstChild.childNodes.length > 1){
@@ -113,7 +114,6 @@ function loadUrlInArray(response){
         window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
-        SWFAddress.setValue(window.url);
     }
 }
 

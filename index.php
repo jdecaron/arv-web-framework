@@ -66,7 +66,6 @@ include 'include/php/class/user.php';
 include siteProperties::getClassPath() . 'structure.php';
 
 $pageToLoad = 'index';
-var_dump($_COOKIE);
 if($_COOKIE['hash'] != ''){
     foreach(explode('&', $_COOKIE['hash']) as $hashVariable){
         if(eregi('^page=', $hashVariable)){
@@ -80,13 +79,7 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=blocks&sauce=a'))) . '>color blocks a</a>';
-echo ' ';
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=blocks&sauce=b'))) . '>color blocks b</a>';
-echo '&nbsp;&nbsp;&nbsp;&nbsp; ';
-echo '<a' .siteTools::generateAnchorAttributes(array('attributes' => array('style' => 'background-color:yellow;', 'href' => 'asdasd=asdasd&page=index&sauce=2'))) . '>ns layout</a>';
-
-echo '<div id="page" style="width:1000px;">' . $page_template . '</div>';
+echo '<body style="background-image:url(img/arv/background.gif);background-position:25px 0px;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="width:1000px;background-color:white;">' . $page_template . '</div>';
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
