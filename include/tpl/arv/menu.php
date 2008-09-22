@@ -10,6 +10,6 @@ include '/var/www/find-spots.com/include/php/class/user.php';
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=videos', 'style' => 'text-decoration:none;color:white;')))?>>Videos</a>
 &nbsp;&nbsp;&nbsp;&nbsp;
-<a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=videos', 'style' => 'text-decoration:none;color:white;')))?>>About Me</a>
+<!--<a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=contact', 'style' => 'text-decoration:none;color:white;')))?>>Contact</a>-->
 </div>
 </div>

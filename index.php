@@ -79,7 +79,7 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<body style="background-image:url(img/arv/background.gif);background-position:25px 0px;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="width:1000px;background-color:white;">' . $page_template . '</div>';
+echo '<body style="text-align:center;background-color:black;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
