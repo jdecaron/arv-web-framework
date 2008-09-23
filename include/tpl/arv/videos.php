@@ -11,7 +11,7 @@ echo <<<EOT
 EOT;
 }
 ?>
-<table width="677px" border="0" cellspacing="0" cellpadding="0" style="margin-left:23px;padding-top:20px;padding-bottom:40px;">
+<table width="677px" border="0" cellspacing="0" cellpadding="0" style="margin-left:23px;margin-top:20px;margin-bottom:40px;">
   <tr>
     <td style="padding-top:20px;"><a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=videos&id=1188206')))?>><img alt="thumbnail" style="width: 200px;border-style:none; height: 150px;" src="http://images.vimeo.com/82/27/43/82274374/82274374_200x150.jpg"/></a><br>MF-Episode17</td>
     <td style="padding-top:20px;"><a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=videos&id=1187907')))?>><img alt="thumbnail" style="width: 200px;border-style:none; height: 150px;" src="http://images.vimeo.com/82/24/10/82241063/82241063_200x150.jpg"/></a><br>MF-Episode16</td>

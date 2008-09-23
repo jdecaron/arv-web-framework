@@ -40,9 +40,9 @@ $lorem_array = explode('. ', $lorem);
 ?>
 
 <div style="margin-left:22px;font-size:18px;">Comments</div>
-<div style="margin-left:22px;margin-bottom:40px;background-color:black;width:641px;padding:5px;">
+<div style="margin-left:22px;margin-bottom:40px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
 <?$numberOfComments = rand(8,15);for($j=1;$j<=$numberOfComments;$j++){$userName = substr(md5(rand(1,100)), 0, 8);?>
-<div style="clear:both;padding-top:5px;"><div style="float:left;color:white;width:100px;"><span style="margin-left:5px;"><?=$userName?></span></div><div style="width:541px;float:left;color:white;">
+<div style="clear:both;padding-top:5px;"><div style="float:left;color:white;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:541px;float:left;color:white;">
 <?$numberOfLines = rand(0,4);$pickTheFirstLineFrom = rand(0,(count($lorem_array))-$numberOfLines);for($i=0;$i<=$numberOfLines;$i++){?>
 <?=$lorem_array[$pickTheFirstLineFrom + $i] . ". "?>
 <?}?>
