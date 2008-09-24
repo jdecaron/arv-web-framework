@@ -187,55 +187,55 @@ class block{
 // used in the main templates.
 
     function blogs(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/blogs.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/blogs.php';
     }
 
     function rails(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page1.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page1.php';
     }
 
     function page3(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page3.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page3.php';
     }
 
     function page4(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page5(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page5.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page5.php';
     }
 
     function page7(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 
     function page8(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
     }
 
     // 
     function headerBlock(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/header.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/header.php';
     }
     function footer(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/footer.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/footer.php';
     }
     function navigationMenu(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/menu.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/menu.php';
     }
 
     function blogList(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/blog_list.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/blog_list.php';
     }
     function featuredArticles(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/featured_articles.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/featured_articles.php';
     }
     function news(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/news.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/news.php';
     }
     function rightBar(){
-        return 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/right_bar.php';
+        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/right_bar.php';
     }
 }
 
@@ -259,7 +259,7 @@ class page{
         return array(
             'template' => 'template1',
             'content' => array(
-                            'http://1880.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
+                            'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
                         )
         );
     }
@@ -274,7 +274,7 @@ class page{
         return array(
             'template' => 'content',
             'content' => array(
-                            555 => 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/photos.php'
+                            555 => 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/photos.php'
                         )
         );
     }
@@ -283,7 +283,7 @@ class page{
         return array(
             'template' => 'content',
             'content' => array(
-                            555 => 'http://1880.dyndns.org:520/find-spots.com/include/tpl/arv/videos.php'
+                            555 => 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/videos.php'
                         )
         );
     }

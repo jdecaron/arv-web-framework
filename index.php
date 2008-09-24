@@ -79,7 +79,7 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<body style="text-align:center;background-color:black;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
+echo '<title>ARV Web Framework</title><body style="text-align:center;background-color:black;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
@@ -100,3 +100,4 @@ if(document.cookie.toString().search('ieGotRefreshed=1') != -1){
     loadPage(window.location.hash.toString().substr(2, window.location.hash.toString().length));
 }
 </script>
+</body>
