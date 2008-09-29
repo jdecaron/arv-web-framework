@@ -27,10 +27,12 @@ if($image >= 9){
 ?>
 
 <?$sizes = getimagesize("/var/www/find-spots.com/img/legrisak/".$image.".jpg");?>
+<div style="margin-left:22px;margin-bottom:20px;font-size:18px;color:#547DA1;">Picture <?=$image?></div>
 <div style="width:<?=$sizes[0]?>px;margin-left:22px;background-image:url(img/legrisak/<?=$image?>.jpg);">
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $previousImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
 <a style="position:absolute;" <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $nextImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
 </div>
+<div style="width:673px;text-align:right;">Click the picture!</div>
 </div>
 
 <?
@@ -39,15 +41,15 @@ $lorem = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cras gravida
 $lorem_array = explode('. ', $lorem);
 ?>
 
-<div style="margin-left:22px;font-size:18px;">Comments</div>
-<div style="margin-left:22px;margin-bottom:40px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
-<?$numberOfComments = rand(8,15);for($j=1;$j<=$numberOfComments;$j++){$userName = substr(md5(rand(1,100)), 0, 8);?>
-<div style="clear:both;padding-top:5px;"><div style="float:left;color:white;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:541px;float:left;color:white;">
+<div style="margin-left:22px;font-size:18px;color:#547DA1;">Comments</div>
+<div style="margin-left:22px;margin-bottom:80px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
+<?$numberOfComments = rand(6,10);for($j=1;$j<=$numberOfComments;$j++){$userName = substr(md5(rand(1,100)), 0, 8);?>
+<div style="clear:both;padding-top:7px;"><div style="float:left;color:white;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:531px;margin-right:10px;float:left;color:white;">
 <?$numberOfLines = rand(0,4);$pickTheFirstLineFrom = rand(0,(count($lorem_array))-$numberOfLines);for($i=0;$i<=$numberOfLines;$i++){?>
 <?=$lorem_array[$pickTheFirstLineFrom + $i] . ". "?>
 <?}?>
 </div>
 </div>
 <?}?>
-<div style="clear:both;"></div>
+<div style="clear:both;margin-bottom:10px;"></div>
 </div>

@@ -4,10 +4,11 @@ include '/var/www/find-spots.com/include/php/class/user.php';
 ?>
 
 <div style="width:700px;background-color:white;">
+<div style="margin-top:40px;margin-left:22px;width:620px;">All the videos from this gallery are mades by <strong>MomentFactory</strong>. It's a Montreal based company that produces very interesting and artistic videos. To learn more about about them visit their website at <a href="http://www.momentfactory.com/" style="color:#547DA1;text-decoration:none;font-weight:bold;">momentfactory.com</a>.</div>
 <?
 if(isset($_REQUEST['id'])){
 echo <<<EOT
-<div style="margin-left:23px;padding-top:40px;"><object width="400" height="300">   <param name="allowfullscreen" value="true" />   <param name="allowscriptaccess" value="always" />   <param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id={$_REQUEST['id']}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />   <embed src="http://vimeo.com/moogaloop.swf?clip_id={$_REQUEST['id']}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></div>
+<div style="margin-left:23px;padding-top:36px;"><object width="400" height="300">   <param name="allowfullscreen" value="true" />   <param name="allowscriptaccess" value="always" />   <param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id={$_REQUEST['id']}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />   <embed src="http://vimeo.com/moogaloop.swf?clip_id={$_REQUEST['id']}&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="400" height="300"></embed></object></div>
 EOT;
 }
 ?>

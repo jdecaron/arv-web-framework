@@ -317,12 +317,7 @@ class template{
                                                                                     'load' => block::news(),
                                                                                     'dynamic' => 0,
                                                                                     'style' => 'clear:both'
-                                                                                    ),
-                                                                    'a3_b0_c1' => array(
-                                                                                    'load' => block::blogList(),
-                                                                                    'dynamic' => 0,
-                                                                                    'style' => 'clear:both'
-                                                                                    ),
+                                                                                    )
                                                                     ),
                                                         'style' => 'float:left'
                                                     ),
