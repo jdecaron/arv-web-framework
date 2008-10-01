@@ -1,8 +1,8 @@
 <?
 if($_COOKIE['deleteHashCookie'] !== 'false'){
-    setcookie('hash', '', time() - 3600, '/find-spots.com/');
+    unset($_COOKIE['hash']);
 }
-setcookie('deleteHashCookie', '', time() - 3600, '/find-spots.com/');
+unset($_COOKIE['deleteHashCookie']);
 
 session_start();
 
@@ -36,6 +36,7 @@ window.onbeforeunload = function(){
     document.cookie = 'deleteHashCookie=false';
 }
 
+//alert(document.cookie.toString());
 if(document.cookie.toString().search('hash=*' + window.location.hash.toString().substr(2, window.location.hash.toString().length) + ';') == -1){
     // Reload the page to make the cookie variable visible
     // from PHP. And the cookie value for the hash is updated

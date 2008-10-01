@@ -1,6 +1,6 @@
 <?
-include '/var/www/find-spots.com/include/php/class/site.php';
-include '/var/www/find-spots.com/include/php/class/user.php';
+include '/var/www/arv/include/php/class/site.php';
+include '/var/www/arv/include/php/class/user.php';
 ?>
 
 <div style="width:700px;background-color:white;">

@@ -170,8 +170,9 @@ function compare2Structures(actual_xml, next_xml){
                 if(nextChildsStatus){
                     // Create the block if it doesn't exists.
                     if($(next_xml.childNodes[i].nodeName) == null){
-                        parentBlock = blockToClean_array.join('_');
-                        if(parentBlock == ''){
+                        if(next_xml.childNodes[i].nodeName.toString().search('_') != -1){
+                            parentBlock = next_xml.childNodes[i].nodeName.slice(0, next_xml.childNodes[i].nodeName.lastIndexOf('_'));
+                        }else{
                             parentBlock = 'page';
                         }
                         new Insertion.Bottom(parentBlock, '<div id="' + next_xml.childNodes[i].nodeName + '"></div>');

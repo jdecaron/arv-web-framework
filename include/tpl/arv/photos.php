@@ -1,9 +1,9 @@
 <?
-include '/var/www/find-spots.com/include/php/class/site.php';
-include '/var/www/find-spots.com/include/php/class/user.php';
+include '/var/www/arv/include/php/class/site.php';
+include '/var/www/arv/include/php/class/user.php';
 ?>
 
-<div style="margin-top:40px;width:700px;padding-bottom:35px;background-color:white;">
+<div style="margin-top:35px;width:700px;padding-bottom:35px;background-color:white;">
 <?
 $image = $_REQUEST['id'];
 if($image <= 1){
@@ -26,8 +26,8 @@ if($image >= 9){
 
 ?>
 
-<?$sizes = getimagesize("/var/www/find-spots.com/img/legrisak/".$image.".jpg");?>
-<div style="margin-left:22px;margin-bottom:20px;font-size:18px;color:#547DA1;">Picture <?=$image?></div>
+<?$sizes = getimagesize("/var/www/arv/img/legrisak/".$image.".jpg");?>
+<div style="margin-left:22px;font-size:18px;color:#547DA1;">Picture <?=$image?></div>
 <div style="width:<?=$sizes[0]?>px;margin-left:22px;background-image:url(img/legrisak/<?=$image?>.jpg);">
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $previousImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
 <a style="position:absolute;" <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $nextImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
@@ -42,7 +42,7 @@ $lorem_array = explode('. ', $lorem);
 ?>
 
 <div style="margin-left:22px;font-size:18px;color:#547DA1;">Comments</div>
-<div style="margin-left:22px;margin-bottom:80px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
+<div style="margin-left:22px;margin-bottom:60px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
 <?$numberOfComments = rand(6,10);for($j=1;$j<=$numberOfComments;$j++){$userName = substr(md5(rand(1,100)), 0, 8);?>
 <div style="clear:both;padding-top:7px;"><div style="float:left;color:white;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:531px;margin-right:10px;float:left;color:white;">
 <?$numberOfLines = rand(0,4);$pickTheFirstLineFrom = rand(0,(count($lorem_array))-$numberOfLines);for($i=0;$i<=$numberOfLines;$i++){?>

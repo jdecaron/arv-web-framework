@@ -186,56 +186,59 @@ class block{
 // Class that define all the small blocks
 // used in the main templates.
 
+    function advertisement(){
+        return 'http://arv.dyndns.org:520/include/tpl/arv/advertisement.php';
+    }
     function blogs(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/blogs.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/blogs.php';
     }
 
     function rails(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page1.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page1.php';
     }
 
     function page3(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page3.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page3.php';
     }
 
     function page4(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page4.php';
     }
 
     function page5(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page5.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page5.php';
     }
 
     function page7(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page4.php';
     }
 
     function page8(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php';
+        return 'http://arv.dyndns.org:520/include/tpl/test/page4.php';
     }
 
     // 
     function headerBlock(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/header.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/header.php';
     }
     function footer(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/footer.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/footer.php';
     }
     function navigationMenu(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/menu.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/menu.php';
     }
 
     function blogList(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/blog_list.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/blog_list.php';
     }
     function featuredArticles(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/featured_articles.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/featured_articles.php';
     }
     function news(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/news.php';
+        return 'http://arv.dyndns.org:520/include/tpl/arv/news.php';
     }
-    function rightBar(){
-        return 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/right_bar.php';
+    function screencast(){
+        return 'http://arv.dyndns.org:520/include/tpl/arv/screencast.php';
     }
 }
 
@@ -244,25 +247,16 @@ class page{
 // and the place of that content in the
 // structure of the template system.
 
-    /*function forum(){
+    /*function reference(){
         return array(
             'template' => 'template0',
             'content' => array(
-                            440 => block::left(),
-                            330 => block::forum(),
-                            545 => block::headerBlock()
+                            0 => 'http://example.com/include/page0.php',
+                            1 => 'http://example.com/include/page1.php',
+                            2 => 'http://example.com/include/page2.php'
                         )
         );
     }*/
-
-    function blocks(){
-        return array(
-            'template' => 'template1',
-            'content' => array(
-                            'http://arv.dyndns.org:520/find-spots.com/include/tpl/test/page4.php'
-                        )
-        );
-    }
 
     function index(){
         return array(
@@ -274,7 +268,7 @@ class page{
         return array(
             'template' => 'content',
             'content' => array(
-                            555 => 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/photos.php'
+                            0 => 'http://arv.dyndns.org:520/include/tpl/arv/photos.php'
                         )
         );
     }
@@ -283,7 +277,7 @@ class page{
         return array(
             'template' => 'content',
             'content' => array(
-                            555 => 'http://arv.dyndns.org:520/find-spots.com/include/tpl/arv/videos.php'
+                            0 => 'http://arv.dyndns.org:520/include/tpl/arv/videos.php'
                         )
         );
     }
@@ -313,18 +307,27 @@ class template{
                             'childs' => array(
                                         'a3_b0' => array(
                                                         'childs' => array(
-                                                                    'a3_b0_c0' => array(
-                                                                                    'load' => block::news(),
-                                                                                    'dynamic' => 0,
-                                                                                    'style' => 'clear:both'
-                                                                                    )
+                                                                        'a3_b0_c0' => array(
+                                                                                        'load' => block::news(),
+                                                                                        'dynamic' => 0,
+                                                                                        'style' => 'clear:both'
+                                                                                        )
                                                                     ),
                                                         'style' => 'float:left'
                                                     ),
                                         'a3_b1' => array(
-                                                    'load' => block::rightBar(),
-                                                    'dynamic' => 1,
-                                                    'style' => 'float:left;',
+                                                        'childs' => array(
+                                                                        'a3_b1_c0' => array(
+                                                                                            'load' => block::screencast(),
+                                                                                            'dynamic' => 0,
+                                                                                            'style' => 'clear:both;',
+                                                                                        ),
+                                                                        'a3_b1_c1' => array(
+                                                                                            'load' => block::advertisement(),
+                                                                                            'dynamic' => 1
+                                                                                        )
+                                                                    ),
+                                                        'style' => 'float:left;width:300px;'
                                                     )
                                         ),
                             'style' => 'clear:both'
@@ -334,8 +337,7 @@ class template{
                             'dynamic' => 0,
                             'style' => 'clear:both'
                             ),
-        ),
-        'title' => 'Find-Spots.com'
+        )
         );
     }
 
@@ -357,7 +359,7 @@ class template{
                                         'a2_b0' => array(
                                                         'childs' => array(
                                                                     'a2_b0_c0' => array(
-                                                                                    'load' => 555,
+                                                                                    'load' => 0,
                                                                                     'dynamic' => 1,
                                                                                     'style' => 'clear:both'
                                                                                     )
@@ -365,7 +367,7 @@ class template{
                                                         'style' => 'float:left'
                                                     ),
                                         'a2_b1' => array(
-                                                    'load' => block::rightBar(),
+                                                    'load' => block::advertisement(),
                                                     'dynamic' => 1,
                                                     'style' => 'float:left;',
                                                     )
@@ -377,8 +379,7 @@ class template{
                             'dynamic' => 0,
                             'style' => 'clear:both'
                             ),
-        ),
-        'title' => 'Find-Spots.com'
+        )
         );
     }
 

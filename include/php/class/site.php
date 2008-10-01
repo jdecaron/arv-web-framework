@@ -3,7 +3,7 @@
 class siteProperties{
 
     private static $class_path = 'include/php/class/';
-    private static $root_path = '/var/www/find-spots.com/';
+    private static $root_path = '/var/www/arv/';
     private static $script_path = 'sh/';
 
     static function getClassPath(){
