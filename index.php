@@ -48,7 +48,6 @@ if(document.cookie.toString().search('hash=*' + window.location.hash.toString().
 </script>
 
 <!--AJAX navigation system.-->
-<script src="include/js/ajax.js"></script>
 <script src="include/js/navigation.js"></script>
 
 <!--Prototype, hosted by Google.-->
@@ -88,7 +87,7 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<title>ARV Web Framework</title><body style="background-image:url(img/arv/background4.jpg);background-position:fixed;text-align:center;background-color:grey;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
+echo '<title>ARV Web Framework</title><html><body style="background-image:url(img/arv/background4.jpg);background-position:fixed;text-align:center;background-color:grey;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->
@@ -110,3 +109,4 @@ if(document.cookie.toString().search('ieGotRefreshed=1') != -1){
 }
 </script>
 </body>
+</html>
