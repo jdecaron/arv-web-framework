@@ -1,3 +1,21 @@
+function xmlDOM(str){
+    //Code for IE.
+    if (window.ActiveXObject)
+    {
+        var doc=new ActiveXObject("Microsoft.XMLDOM");
+        doc.async="false";
+        doc.loadXML(str);
+    }
+    // Code for the other browsers.
+    else
+    {
+        var parser=new DOMParser();
+        var doc=parser.parseFromString(str,"text/xml");
+    }
+
+    return doc
+}
+
 function loadPage(url){
 // Write a function that return the next structure
 // with the URLs replaced in the load nodes.
