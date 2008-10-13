@@ -10,6 +10,8 @@ include '/var/www/arv/include/php/class/user.php';
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=videos', 'style' => 'text-decoration:none;color:white;')))?>>Videos</a>
 &nbsp;&nbsp;&nbsp;&nbsp;
+<a href="http://github.com/550/arv-web-framework/tree" style="color:white;text-decoration:none;">Download</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <!--<a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=contact', 'style' => 'text-decoration:none;color:white;')))?>>Contact</a>-->
 </div>
 </div>

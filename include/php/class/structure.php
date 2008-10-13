@@ -273,6 +273,15 @@ class page{
         );
     }
 
+    function testpage(){
+        return array(
+            'template' => 'content',
+            'content' => array(
+                            0 => 'http://arv.dyndns.org:520/include/tpl/arv/testpage.php'
+                        )
+        );
+    }
+
     function videos(){
         return array(
             'template' => 'content',
@@ -318,13 +327,13 @@ class template{
                                         'a3_b1' => array(
                                                         'childs' => array(
                                                                         'a3_b1_c0' => array(
+                                                                                            'load' => block::advertisement(),
+                                                                                            'dynamic' => 1
+                                                                                        ),
+                                                                        'a3_b1_c1' => array(
                                                                                             'load' => block::screencast(),
                                                                                             'dynamic' => 0,
                                                                                             'style' => 'clear:both;',
-                                                                                        ),
-                                                                        'a3_b1_c1' => array(
-                                                                                            'load' => block::advertisement(),
-                                                                                            'dynamic' => 1
                                                                                         )
                                                                     ),
                                                         'style' => 'float:left;width:300px;'

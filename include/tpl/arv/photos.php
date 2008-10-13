@@ -26,9 +26,9 @@ if($image >= 9){
 
 ?>
 
-<?$sizes = getimagesize("/var/www/arv/img/legrisak/".$image.".jpg");?>
+<?$sizes = getimagesize("/var/www/arv/img/photos/".$image.".jpg");?>
 <div style="margin-left:22px;font-size:18px;color:#547DA1;">Picture <?=$image?></div>
-<div style="width:<?=$sizes[0]?>px;margin-left:22px;background-image:url(img/legrisak/<?=$image?>.jpg);">
+<div style="width:<?=$sizes[0]?>px;margin-left:22px;background-image:url(img/photos/<?=$image?>.jpg);">
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $previousImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
 <a style="position:absolute;" <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $nextImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
 </div>
@@ -42,9 +42,9 @@ $lorem_array = explode('. ', $lorem);
 ?>
 
 <div style="margin-left:22px;font-size:18px;color:#547DA1;">Comments</div>
-<div style="margin-left:22px;margin-bottom:60px;background-color:black;width:651px;padding-top:10px;padding-bottom:15px;">
+<div style="margin-left:22px;margin-bottom:60px;width:651px;padding-top:10px;padding-bottom:15px;background-color:#d6d6d6;">
 <?$numberOfComments = rand(6,10);for($j=1;$j<=$numberOfComments;$j++){$userName = substr(md5(rand(1,100)), 0, 8);?>
-<div style="clear:both;padding-top:7px;"><div style="float:left;color:white;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:531px;margin-right:10px;float:left;color:white;">
+<div style="clear:both;padding-top:7px;"><div style="float:left;width:90px;"><span style="margin-left:15px;"><?=$userName?></span></div><div style="margin-left:10px;width:531px;margin-right:10px;float:left;">
 <?$numberOfLines = rand(0,4);$pickTheFirstLineFrom = rand(0,(count($lorem_array))-$numberOfLines);for($i=0;$i<=$numberOfLines;$i++){?>
 <?=$lorem_array[$pickTheFirstLineFrom + $i] . ". "?>
 <?}?>
