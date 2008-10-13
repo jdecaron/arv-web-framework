@@ -4,7 +4,7 @@ include '/var/www/arv/include/php/class/user.php';
 ?>
 
 <div style="width:700px;background-color:white;">
-<div style="margin-top:40px;margin-left:22px;width:620px;">All the videos from this gallery are mades by <strong>MomentFactory</strong>. It's a Montreal based company that produces very interesting and artistic videos. To learn more about about them visit their website at <a href="http://www.momentfactory.com/" style="color:#547DA1;font-weight:bold;">momentfactory.com</a>.</div>
+<div style="margin-top:40px;margin-left:22px;width:620px;">This example gallery is a list of videos that are mades by <strong>MomentFactory</strong>. It's a Montreal based company that produces very interesting and artistic videos. To learn more about about them visit their website at <a href="http://www.momentfactory.com/" style="color:#547DA1;font-weight:bold;">momentfactory.com</a>.</div>
 <?
 if(isset($_REQUEST['id'])){
 echo <<<EOT
