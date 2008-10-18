@@ -1,4 +1,4 @@
-<div style="padding-right:27px;background-color:white;width:653px;margin-bottom:80px;">
+<div style="padding-right:27px;background-color:white;width:653px;margin-bottom:35px;">
 
 <div style="margin-top:35px;margin-left:22px;font-size:18px;color:#547da1;">What is the ARV framework?</div>
 <div style="margin-left:33px;">The ARV web framework is a client and server side tool that simplifies the coding technique to load asynchronous content into web pages. In the most simple case, a programmer would have to insert only one line of code inside the HTML anchor tags. 

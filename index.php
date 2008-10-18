@@ -32,18 +32,25 @@ if (strstr(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE')) {
 
 <script>
 window.onbeforeunload = function(){
-    document.cookie = 'hash=' + window.location.hash.toString().substr(2, window.location.hash.toString().length);
-    document.cookie = 'deleteHashCookie=false';
+    if(window.location.toString().search('#') != -1 && window.location.toString().split('#')[1].length > 0){
+        hashValue = window.location.toString().split('#')[1].substr(1);
+        document.cookie = 'hash=' + hashValue + ';';
+        document.cookie = 'deleteHashCookie=false;';
+    }
 }
 
-//alert(document.cookie.toString());
-if(document.cookie.toString().search('hash=*' + window.location.hash.toString().substr(2, window.location.hash.toString().length) + ';') == -1){
-    // Reload the page to make the cookie variable visible
-    // from PHP. And the cookie value for the hash is updated
-    // during the body "onunload" state.
-    document.cookie = 'hash=' + window.location.hash.toString().substr(2, window.location.hash.toString().length);
-    document.cookie = 'deleteHashCookie=false';
-    window.location.reload(true);
+if(window.location.toString().search('#') != -1 && window.location.toString().split('#') > 1){
+    // Process the hash string comparison with the cookie
+    // because the hash is set in the URL.
+    hashValue = window.location.toString().split('#')[1].substr(1);
+    if(document.cookie.toString().match('hash=' + hashValue + ';|hash=' + hashValue + '?') == null){
+        // Reload the page to make the cookie variable visible
+        // from PHP. And the cookie value for the hash is updated
+        // during the body "onunload" state.
+        document.cookie = 'hash=' + hashValue + ';';
+        document.cookie = 'deleteHashCookie=false;';
+        window.location.reload(true);
+    }
 }
 </script>
 
@@ -87,7 +94,7 @@ if($_COOKIE['hash'] != ''){
 
 $page_template =  buildStructure::html(array('page' => $pageToLoad));
 
-echo '<title>ARV Web Framework</title><html><body style="background-image:url(img/arv/background4.jpg);background-position:fixed;text-align:center;background-color:grey;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
+echo '<title>ARV Web Framework</title><html><body style="background-image:url(img/arv/background4.jpg);background-position:fixed;text-align:center;background-color:grey;font-family:sans-serif;margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:0px;"><div id="loading" style="visibility:hidden;position:absolute;width:100%;height:26px;"><span style="padding-top:3px;padding-bottom:5px;padding-left:20px;padding-right:20px;color:white;width:150px;background-color:#a1545c;">Loading...</span></div><div id="page" style="text-align:left;margin:auto;width:1000px;background-color:white;">' . $page_template . '</div>';
 ?>
 <!--Include the JavaScript file that contains
 all the structure of the templates and of the pages.-->

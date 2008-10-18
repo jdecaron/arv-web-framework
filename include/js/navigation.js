@@ -46,8 +46,10 @@ function loadPage(url){
 
     window.url = url;
 
-    // Start the loading indacator for
+    // Start the loading indicator for
     // the user.
+    document.getElementById('loading').style.top = document.body.scrollTop;
+    document.getElementById('loading').style.visibility = 'visible';
 
     urlSplit_array = url.split('&');
     window.nextUrlList_array = [];
@@ -156,6 +158,9 @@ function loadUrlInArray(response){
         window.actualUrlList_array = [];
         window.actualTemplate_xml = window.nextTemplate_xml;
         processTemplateStructure(eval('page.'+window.pageName+'()'), 'actual');
+
+        // Hide the loading indicator.
+        document.getElementById('loading').style.visibility = 'hidden';
     }
 }
 

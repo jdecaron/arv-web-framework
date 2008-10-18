@@ -117,7 +117,12 @@ class buildStructure{
                 if(array_key_exists($index, $arguments_array['loadedBlocks'])){
                     $htmlRendered .= $arguments_array['loadedBlocks'][$index];
                 }
-                $htmlRendered .= buildStructure::renderHtmlStructure(array('loadedBlocks' => $arguments_array['loadedBlocks'], 'structure' => $cell['childs']));
+
+                // Render the childs of this node.
+                if(array_key_exists('childs', $cell)){
+                    $htmlRendered .= buildStructure::renderHtmlStructure(array('loadedBlocks' => $arguments_array['loadedBlocks'], 'structure' => $cell['childs']));
+                }
+
                 $htmlRendered .= '</div>';
             }
         }
@@ -149,8 +154,8 @@ class buildStructure{
         // Wait until all the files are
         // completely loaded.
         $renderCompleted = false;
-$stopthat = 0;
-        while(!$renderCompleted && $stopthat < 20){
+        $stopThat = 0;
+        while(!$renderCompleted && $stopThat < 20){
 
             $renderCompleted = true;
             foreach($arguments_array['blocksToLoad'] as $fileSuffix => $urlToRender){
@@ -159,7 +164,7 @@ $stopthat = 0;
                 }
             }
 
-$stopthat++;
+            $stopThat++;
             usleep(20000);
         }
 
@@ -297,11 +302,11 @@ class page{
         );
     }
 
-    function testpage(){
+    function comments(){
         return array(
             'template' => 'content',
             'content' => array(
-                            0 => 'http://arv.dyndns.org:520/include/tpl/arv/testpage.php'
+                            0 => 'http://arv.dyndns.org:520/include/tpl/arv/comments.php'
                         )
         );
     }

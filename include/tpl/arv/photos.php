@@ -26,7 +26,7 @@ if($image >= 9){
 
 ?>
 
-<?$sizes = getimagesize("/var/www/arv/img/photos/".$image.".jpg");?>
+<?$sizes = getimagesize("/home/jdcaron/arv-wf.org/img/photos/".$image.".jpg");?>
 <div style="margin-left:22px;font-size:18px;color:#547DA1;">Picture <?=$image?></div>
 <div style="width:<?=$sizes[0]?>px;margin-left:22px;background-image:url(img/photos/<?=$image?>.jpg);">
 <a <?=siteTools::generateAnchorAttributes(array('attributes' => array('href' => 'page=photos&id=' . $previousImage)))?>><img style="border-style:none;" src="img/arv/spacer.gif" width="<?=$sizes[0] / 2;?>" height="<?=$sizes[1];?>"></a>
